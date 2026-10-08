@@ -3,15 +3,19 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>고브릭 부품 주문</title>
+<title>고브릭 부품 주문 · G제이콥스토어</title>
+<link rel="icon" href="gjacob_logo.png">
 <meta name="referrer" content="no-referrer">
 <style>
-:root{--bg:#f6f7f9;--card:#fff;--ink:#1d2329;--sub:#68717a;--line:#e3e6ea;--acc:#1f5fd1;--acc2:#e8f0fd;--warn:#b54708;--ok:#067647}
+:root{--bg:#FCFBF8;--card:#fff;--ink:#2b2b2b;--sub:#707070;--line:#e8e4dd;--acc:#EE5A24;--acc2:#fdeee6;--warn:#b54708;--ok:#067647}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 -apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif}
-header{background:#14213d;color:#fff;padding:18px 16px}
-header h1{margin:0;font-size:20px}
-header p{margin:4px 0 0;font-size:13px;opacity:.85}
+header{background:var(--bg);color:var(--ink);padding:0 16px 14px;border-top:3px solid var(--acc)}
+.brand{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:12px;padding-top:16px}
+.brand img{width:44px;height:auto}
+.brand .store{font-size:13px;color:var(--sub);letter-spacing:.02em}
+header h1{margin:0;font-size:22px;font-weight:800}
+header p{max-width:1180px;margin:10px auto 0;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:12px}
 .wrap{max-width:1180px;margin:0 auto;padding:16px;display:grid;grid-template-columns:1fr 360px;gap:16px;align-items:start}
 @media(max-width:900px){.wrap{grid-template-columns:1fr}.cart{position:static!important}}
 .search{display:flex;gap:8px;margin-bottom:12px}
@@ -52,7 +56,7 @@ button:disabled{background:#c9ced4;cursor:not-allowed}
 </head>
 <body>
 <header>
-  <h1>고브릭(GOBRICKS) 부품 주문</h1>
+  <div class="brand"><img src="gjacob_logo.png" alt="G제이콥스토어"><div><div class="store">구매부터 완성까지, G제이콥스토어</div><h1>고브릭(GOBRICKS) 부품 주문</h1></div></div>
   <p>레고 호환 고브릭 부품이에요. 레고 부품번호로 찾아 색상과 수량을 담으세요. 부품 15,000원부터 주문할 수 있고 배송비는 5,000원이에요. 해외 배송이라 받기까지 영업일 5~13일 걸려요.</p>
 </header>
 <div class="wrap">
@@ -98,7 +102,9 @@ function render() {
   const el = document.getElementById("list"); el.innerHTML = "";
   hits.slice(0, shown).forEach(p => {
     const d = document.createElement("div"); d.className = "part";
-    const opts = p.o.map(o => `<option value="${o[0]}">${cName(o[0])}${o[1] ? " — " + won(o[1]) : ""}${o[2] ? "" : " (품절)"}</option>`).join("");
+    const FIRST = ["090", "080", "071", "072", "010", "050", "030"];
+    const rank = o => (FIRST.indexOf(o[0]) + 1 || 99) * 1000 + (o[2] ? 0 : 500) + parseInt(o[0], 10);
+    const opts = [...p.o].sort((a, b) => rank(a) - rank(b)).map(o => `<option value="${o[0]}">${cName(o[0])}${o[1] ? " — " + won(o[1]) : ""}${o[2] ? "" : " (품절)"}</option>`).join("");
     const lego = p.l ? `<div class="lego${p.r ? " ref" : ""}">${p.r ? "참고 번호 " : "레고 "}${p.l.split(" ").slice(0, 3).join(", ")}</div>` : "";
     d.innerHTML = `<div class="top"><img loading="lazy" alt="">
       <div><div class="code">${p.e || p.z}</div>${lego}<div class="nm">GDS-${p.p}</div></div></div>
