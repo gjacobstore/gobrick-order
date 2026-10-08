@@ -46,6 +46,8 @@ button:disabled{background:#c9ced4;cursor:not-allowed}
 .line .x{color:var(--sub);cursor:pointer;background:none;padding:0;font-size:13px}
 .sum{margin-top:10px;font-size:14px}
 .sum div{display:flex;justify-content:space-between;padding:2px 0}
+.sum .save{display:block;margin-top:10px;padding:10px 12px;background:#fdeee6;border-radius:8px;font-size:13px;line-height:1.6}
+.sum .save div{display:block;padding:0}
 .sum .tot{font-size:18px;font-weight:700;border-top:1px solid var(--line);margin-top:6px;padding-top:8px}
 .codebox{margin-top:12px;background:#f2f4f7;border-radius:8px;padding:10px;font:12px/1.4 ui-monospace,Consolas,monospace;word-break:break-all;max-height:140px;overflow:auto}
 .steps{font-size:13px;background:#fff8e6;border-radius:8px;padding:10px 12px;margin-top:12px}
@@ -128,14 +130,15 @@ function render() {
   document.getElementById("info").textContent = `부품 ${hits.length.toLocaleString()}종 · 가격 기준 ${D.built} (환율 ${D.fx}원/위안) · 레고 순정 가격은 국내 판매처 ${D.btDay} 기준`;
 }
 function quote() {
-  let goods = 0, pcs = 0; const lines = [];
+  let goods = 0, pcs = 0, lego = 0, legoOurs = 0, legoLines = 0; const lines = [];
   for (const [k, n] of Object.entries(cart)) {
     const m = byKey[k]; if (!m || !m.o[1] || !m.o[2]) continue;
     goods += m.o[1] * n; pcs += n; lines.push([k, n]);
+    if (m.o[3]) { lego += m.o[3] * n; legoOurs += m.o[1] * n; legoLines++; }  // 정품 가격이 있는 줄만 비교
   }
   const ship = lines.length ? D.ship : 0;
   const total = Math.ceil((goods + ship) / D.unit) * D.unit;
-  return { goods, pcs, ship, total, lines, qty: total / D.unit };
+  return { goods, pcs, ship, total, lines, qty: total / D.unit, lego, legoOurs, legoLines };
 }
 function drawCart() {
   const L = document.getElementById("lines"), q = quote();
@@ -152,6 +155,10 @@ function drawCart() {
     <div><span>배송비</span><span>${won(q.ship)}</span></div>
     <div class="tot"><span>결제 금액</span><span>${won(q.total)}</span></div>
     <div style="color:#68717a;font-size:12px">100원 단위로 올려 계산해요.</div>
+    ${q.legoLines && q.lego > q.legoOurs ? `<div class="save">
+      레고 정품으로 샀다면 <b>${won(q.lego)}</b>이에요.<br>
+      <b style="color:#EE5A24;font-size:16px">${won(q.lego - q.legoOurs)} 아껴요</b>
+      <div style="color:#707070;font-size:12px">국내 판매처에 정품이 있는 ${q.legoLines}줄의 부품값 기준이에요(배송비 빼고).</div></div>` : ""}
     ${q.goods < D.minOrder ? `<div style="color:#b54708;font-size:13px;margin-top:6px">부품 ${won(D.minOrder)}부터 주문할 수 있어요. ${won(D.minOrder - q.goods)} 더 담아 주세요.</div>` : ""}` : "";
   document.getElementById("mk").disabled = !q.lines.length || q.goods < D.minOrder;
   document.getElementById("out").innerHTML = "";
