@@ -2,14 +2,16 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>고브릭 부품 주문 · G제이콥스토어</title>
 <link rel="icon" href="gjacob_logo.png">
 <meta name="referrer" content="no-referrer">
 <style>
 :root{--bg:#FCFBF8;--card:#fff;--ink:#2b2b2b;--sub:#707070;--line:#e8e4dd;--acc:#EE5A24;--acc2:#fdeee6;--warn:#b54708;--ok:#067647}
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 -apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif}
+body{margin:0;background:var(--bg);color:var(--ink);font:15px/1.5 -apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;padding-left:env(safe-area-inset-left);padding-right:env(safe-area-inset-right)}
+.nw{white-space:nowrap}
+header h1,header p,.notice,.hint,.grid .empty,.sum,.pay,.steps,.after,.cphint,.bar .t,footer{word-break:keep-all;overflow-wrap:anywhere}
 header{background:var(--bg);color:var(--ink);padding:0 16px 14px;border-top:3px solid var(--acc)}
 .brand{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:12px;padding-top:16px}
 .brand img{width:44px;height:auto}
@@ -18,30 +20,34 @@ header h1{margin:0;font-size:22px;font-weight:800}
 header p{max-width:1180px;margin:10px auto 0;font-size:13px;color:var(--sub);border-bottom:1px solid var(--line);padding-bottom:12px}
 .wrap{max-width:1180px;margin:0 auto;padding:16px;display:grid;grid-template-columns:1fr 360px;gap:16px;align-items:start}
 @media(max-width:900px){.wrap{grid-template-columns:1fr}.cart{position:static!important}}
+.notice{display:none;font-size:13px;background:var(--acc2);border-radius:8px;padding:8px 12px;margin-bottom:10px}
+.notice a{color:var(--acc);font-weight:700}
 .search{display:flex;gap:8px;margin-bottom:12px}
 .search input{flex:1;padding:11px 12px;border:1px solid var(--line);border-radius:8px;font-size:15px}
 .hint{font-size:13px;color:var(--sub);margin:-4px 0 12px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+.grid .empty{grid-column:1/-1;font-size:14px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px}
 .part{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:12px;display:flex;flex-direction:column;gap:8px}
 .part .top{display:flex;gap:10px}
 .part img{width:84px;height:84px;object-fit:contain;border-radius:6px;background:#fafafa;flex:none}
 .part .code{font-weight:700}
-.part .lego{font-size:13px;color:var(--acc)}
-.part .lego.ref{color:var(--sub)}
+.part .lego{font-size:13px;color:var(--sub)}
 .part .nm{font-size:13px;color:var(--sub)}
 .row{display:flex;gap:6px;align-items:center}
 select,input[type=number]{padding:8px;border:1px solid var(--line);border-radius:6px;font-size:14px;background:#fff}
 select{flex:1;min-width:0}
 input[type=number]{width:80px}
-button{border:0;border-radius:8px;padding:9px 12px;font-size:14px;cursor:pointer;background:var(--acc);color:#fff}
+button{border:0;border-radius:8px;padding:9px 12px;font-size:14px;cursor:pointer;background:var(--acc);color:#fff;white-space:nowrap}
 button.ghost{background:var(--acc2);color:var(--acc)}
 button:disabled{background:#c9ced4;cursor:not-allowed}
 .price{font-size:13px}
 .price .cmp{color:var(--ok)}
 .price.na{color:var(--warn)}
 .more{display:block;margin:14px auto;background:#fff;color:var(--acc);border:1px solid var(--line)}
-.cart{position:sticky;top:12px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px}
-.cart h2{margin:0 0 8px;font-size:17px}
+.cart{position:sticky;top:12px;background:var(--card);border:1px solid var(--line);border-radius:10px;padding:14px;scroll-margin-top:12px}
+.cart .head{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.cart h2{margin:0;font-size:17px}
+button.clear{background:none;color:var(--sub);padding:4px 2px;font-size:13px;text-decoration:underline}
 .line{display:grid;grid-template-columns:1fr auto;gap:2px 8px;padding:8px 0;border-bottom:1px solid var(--line);font-size:13px}
 .line .x{color:var(--sub);cursor:pointer;background:none;padding:0;font-size:13px}
 .sum{margin-top:10px;font-size:14px}
@@ -49,64 +55,115 @@ button:disabled{background:#c9ced4;cursor:not-allowed}
 .sum .save{display:block;margin-top:10px;padding:10px 12px;background:#fdeee6;border-radius:8px;font-size:13px;line-height:1.6}
 .sum .save div{display:block;padding:0}
 .sum .tot{font-size:18px;font-weight:700;border-top:1px solid var(--line);margin-top:6px;padding-top:8px}
-.codebox{margin-top:12px;background:#f2f4f7;border-radius:8px;padding:10px;font:12px/1.4 ui-monospace,Consolas,monospace;word-break:break-all;max-height:140px;overflow:auto}
+.codebox{margin-top:12px;background:#f2f4f7;border-radius:8px;padding:10px;font:12px/1.4 ui-monospace,Consolas,monospace;word-break:break-all;max-height:140px;overflow:auto;-webkit-user-select:all;user-select:all}
+.cphint{display:none;margin-top:6px;font-size:13px;color:var(--warn)}
+.pay{margin-top:12px;padding:12px;border:2px solid var(--acc);border-radius:10px;text-align:center}
+.pay .k{font-size:13px;color:var(--sub)}
+.pay .n{font-size:30px;line-height:1.2;font-weight:800;color:var(--acc)}
 .steps{font-size:13px;background:#fff8e6;border-radius:8px;padding:10px 12px;margin-top:12px}
 .steps ol{margin:4px 0 0;padding-left:18px}
+.after{font-size:13px;line-height:1.6;background:#f7f5f0;border-radius:8px;padding:10px 12px;margin-top:8px}
+.after b{display:block}
+.after ul{margin:2px 0 8px;padding-left:16px}
+.after ul:last-child{margin-bottom:0}
+.after li{margin:2px 0}
+.notice .gone{margin-top:4px;font-size:12px;color:var(--sub)}
 .sw{display:inline-block;width:12px;height:12px;border-radius:3px;border:1px solid #0003;vertical-align:-1px;margin-right:4px}
 .empty{color:var(--sub);font-size:13px;padding:8px 0}
+footer{max-width:1180px;margin:0 auto;padding:14px 16px 24px;border-top:1px solid var(--line);font-size:12px;color:var(--sub);text-align:center}
+.bar{display:none}
+@media(max-width:900px){
+  .bar.on{display:flex;position:fixed;left:0;right:0;bottom:0;z-index:20;gap:10px;align-items:center;background:#fff;border-top:1px solid var(--line);box-shadow:0 -2px 10px #0000000f;padding:10px max(16px,env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom)) max(16px,env(safe-area-inset-left))}
+  .bar.on.away{display:none}
+  /* 아래 여백 = 막대의 실제 높이(안전 영역 포함). --barh 는 drawBar 가 막대를 재서 넣고, 재기 전에는 대략값 */
+  body.hasbar{padding-bottom:var(--barh,calc(84px + env(safe-area-inset-bottom)))}
+}
+@media(max-width:360px){
+  .bar.on{gap:8px;padding-left:max(12px,env(safe-area-inset-left));padding-right:max(12px,env(safe-area-inset-right))}
+  .bar .t b{font-size:14px!important}
+  #barGo{padding:9px 10px}
+}
+.bar .t{flex:1;min-width:0;font-size:13px;line-height:1.45}
+.bar .t b{font-size:15px}
+.bar .need{color:var(--warn)}
+.bar .ok{color:var(--ok);font-weight:700}
 </style>
 </head>
 <body>
 <header>
   <div class="brand"><img src="gjacob_logo.png" alt="G제이콥스토어"><div><div class="store">구매부터 완성까지, G제이콥스토어</div><h1>고브릭(GOBRICKS) 부품 주문</h1></div></div>
-  <p>레고 호환 고브릭 부품이에요. 레고 부품번호로 찾아 색상과 수량을 담으세요. 부품 15,000원부터 주문할 수 있고 배송비는 5,000원이에요. 해외 배송이라 받기까지 영업일 5~13일 걸려요.</p>
+  <p>레고 호환 고브릭 부품이에요. 레고 부품번호로 찾아 색과 수량을 골라 담아 주세요. 부품 15,000원부터 주문할 수 있고 배송비는 5,000원이에요. 해외구매대행 상품이라 받기까지 영업일 5~13일 걸려요. 14세 이상 제품이에요.</p>
 </header>
 <div class="wrap">
   <main>
-    <div class="search"><input id="q" type="search" placeholder="레고 부품번호(3023), 이름(Plate 1 x 2, Tile), 고브릭 번호(GDS-502)"></div>
+    <div class="notice" id="back"><span id="backT">지난번에 담은 부품이 있어요.</span> <a href="#cart" id="backGo">담은 부품 보기</a><div class="gone" id="backL" hidden></div></div>
+    <div class="search"><input id="q" type="search" placeholder="레고® 번호(3023)·영어 이름·GDS 번호"></div>
     <div class="hint" id="info"></div>
     <div class="grid" id="list"></div>
     <button class="more" id="more">더 보기</button>
   </main>
-  <aside class="cart">
-    <h2>담은 부품</h2>
+  <aside class="cart" id="cart">
+    <div class="head"><h2>담은 부품</h2><button class="clear" id="clr" hidden>비우기</button></div>
     <div id="lines"><div class="empty">아직 담은 부품이 없어요.</div></div>
     <div class="sum" id="sum"></div>
     <button id="mk" style="width:100%;margin-top:10px" disabled>주문 코드 만들기</button>
     <div id="out"></div>
   </aside>
 </div>
+<footer>G제이콥스토어 · 해외구매대행 · 고브릭 공식 판매처가 아니에요 · 문의는 네이버 톡톡</footer>
+<div class="bar" id="bar"><div class="t" id="barT"></div><button id="barGo">장바구니 보기</button></div>
 <script src="parts.js"></script>
 <script>
 const D = window.GB_DATA, PAGE = 40;
+// 「결제하러 가기」·「톡톡 열기」 자리: 스마트스토어 「고브릭 부품 주문」 상품을 등록한 뒤 주소를 넣으면 주문 코드 아래에 버튼이 나와요(지금은 비워 둠).
+const PAY_URL = "", TALK_URL = "";
 const IMG = (p, c) => `https://image.gobricks.cn/newproducts/${c}/${p}.png`;
 const won = n => n.toLocaleString("ko-KR") + "원";
+const wonH = n => `<span class="nw">${won(n)}</span>`;   // 글 속 금액: 「원」만 다음 줄로 넘어가지 않게(select 안에서는 won)
+const MOBILE = window.matchMedia("(max-width:900px)");
+// 복사가 막혔을 때 안내: 손가락으로 쓰는 기기는 길게 누르기, PC 는 Ctrl+C(맥은 ⌘+C)
+const TOUCH = window.matchMedia("(hover:none) and (pointer:coarse)").matches;
+const COPY_KEY = TOUCH ? "길게 눌러 복사해 주세요."
+  : /Mac/i.test(navigator.platform || "") ? "⌘+C 로 복사해 주세요." : "Ctrl+C 로 복사해 주세요.";
 let cart = {}; try { cart = JSON.parse(localStorage.getItem("gb_cart2") || "{}"); } catch (e) {}
 const save = () => { try { localStorage.setItem("gb_cart2", JSON.stringify(cart)); } catch (e) {} };
 const byKey = {};   // "부품-색" → {p, o}
-D.parts.forEach(p => p.o.forEach(o => byKey[p.p + "-" + o[0]] = { p, o }));
-let shown = PAGE, hits = D.parts;
+let OKP = 0, OKC = 0;   // 주문 가능한 부품 수 · 부품과 색 수
+D.parts.forEach(p => {
+  p.ok = p.o.some(o => o[2]);
+  if (p.ok) OKP++;
+  p.o.forEach(o => { byKey[p.p + "-" + o[0]] = { p, o }; if (o[2]) OKC++; });
+});
+const ALL = [...D.parts].sort((a, b) => b.ok - a.ok);   // 모든 색이 주문 안 되는 부품은 뒤로(나머지 순서는 그대로)
+let shown = PAGE, hits = ALL, query = "";
 
 const norm = s => (s || "").toLowerCase().replace(/[\s,]+/g, "");
 function search() {
   const raw = document.getElementById("q").value.trim(), q = norm(raw);
-  if (!q) { hits = D.parts; }
+  query = q;
+  if (!q) { hits = ALL; }
   else {
     const isNo = /^\d{3,6}[a-z]?$/.test(q), gds = q.replace(/^gds-?/, "");
-    hits = D.parts.filter(p => (isNo && p.l.split(" ").some(x => x.toLowerCase() === q || x.toLowerCase().replace(/[a-z]+$/, "") === q))
+    hits = ALL.filter(p => (isNo && p.l.split(" ").some(x => x.toLowerCase() === q || x.toLowerCase().replace(/[a-z]+$/, "") === q))
       || p.p === gds || norm(p.e).includes(q) || norm(p.z).includes(q) || (!isNo && norm(p.l).includes(q)));
-    if (isNo) hits.sort((a, b) => (b.l.split(" ")[0].toLowerCase() === q) - (a.l.split(" ")[0].toLowerCase() === q));
+    const exact = p => p.l.split(" ")[0].toLowerCase() === q;
+    if (isNo) hits.sort((a, b) => (b.ok - a.ok) || (exact(b) - exact(a)));
   }
   shown = PAGE; render();
 }
 const cName = c => { const x = D.colors[c]; return x ? x[0] + (x[1] ? " · " + x[1] : " · 고브릭 전용색") : c; };
+// 처음 보이는 색: 주문 가능한 색 먼저 → 흰·검·회색 등 기본 색 → 색 번호 순
+const FIRST = ["090", "080", "071", "072", "010", "050", "030"];
+const rank = o => (o[2] ? 0 : 100000) + (FIRST.indexOf(o[0]) + 1 || 99) * 1000 + parseInt(o[0], 10);
+const day = s => String(s).replace(/^(\d{4})(\d\d)(\d\d)$/, "$1-$2-$3");
 function render() {
   const el = document.getElementById("list"); el.innerHTML = "";
+  if (query && !hits.length) el.innerHTML = '<div class="empty">찾은 부품이 없어요. '
+    + (/[ㄱ-ㅎ가-힣]/.test(query) ? "한글 이름으로는 안 나와요. " : "")
+    + "레고® 부품번호(예: 3023), 영어 이름(예: Plate 1 x 2), 고브릭 번호(예: GDS-502)로 찾아 주세요.</div>";
   hits.slice(0, shown).forEach(p => {
     const d = document.createElement("div"); d.className = "part";
-    const FIRST = ["090", "080", "071", "072", "010", "050", "030"];
-    const rank = o => (FIRST.indexOf(o[0]) + 1 || 99) * 1000 + (o[2] ? 0 : 500) + parseInt(o[0], 10);
-    const opts = [...p.o].sort((a, b) => rank(a) - rank(b)).map(o => `<option value="${o[0]}">${cName(o[0])}${o[1] ? " — " + won(o[1]) : ""}${o[2] ? "" : " (품절)"}</option>`).join("");
+    const opts = [...p.o].sort((a, b) => rank(a) - rank(b)).map(o => `<option value="${o[0]}">${cName(o[0])}${o[2] ? (o[1] ? " — " + won(o[1]) : "") : " (지금 주문 안 돼요)"}</option>`).join("");
     const lego = p.l ? `<div class="lego${p.r ? " ref" : ""}">${p.r ? "참고 번호 " : "레고 "}${p.l.split(" ").slice(0, 3).join(", ")}</div>` : "";
     d.innerHTML = `<div class="top"><img loading="lazy" alt="">
       <div><div class="code">${p.e || p.z}</div>${lego}<div class="nm">GDS-${p.p}</div></div></div>
@@ -118,16 +175,26 @@ function render() {
       const o = byKey[p.p + "-" + sel.value].o, c = D.colors[o[0]];
       img.src = IMG(p.p, o[0]);
       const sw = c ? `<span class="sw" style="background:${c[2]}"></span>` : "";
-      if (!o[2]) { pr.innerHTML = sw + "품절이에요"; pr.className = "price na"; btn.disabled = true; return; }
-      const cmp = o[3] ? ` <span class="cmp">· 레고 순정 ${won(o[3])}</span>` : "";
-      pr.innerHTML = sw + `개당 ${won(o[1])}` + cmp; pr.className = "price"; btn.disabled = false;
+      if (!o[2]) { pr.innerHTML = sw + "지금 주문 안 돼요"; pr.className = "price na"; btn.disabled = true; return; }
+      const cmp = o[3] ? ` <span class="cmp">· 레고 순정 ${wonH(o[3])}</span>` : "";
+      pr.innerHTML = sw + `개당 ${wonH(o[1])}` + cmp; pr.className = "price"; btn.disabled = false;
     };
     sel.onchange = upd; upd();
-    btn.onclick = () => { const n = Math.max(1, parseInt(qty.value || "0", 10)); const k = p.p + "-" + sel.value; cart[k] = (cart[k] || 0) + n; save(); drawCart(); };
+    btn.onclick = () => {
+      const n = Math.max(1, parseInt(qty.value || "0", 10) || 1); const k = p.p + "-" + sel.value;
+      cart[k] = (cart[k] || 0) + n; save(); drawCart();
+      document.getElementById("back").style.display = "none";   // 새로 담으면 지난 장바구니 안내는 닫음
+      if (MOBILE.matches) {   // 휴대폰은 장바구니가 아래에 있어서 버튼 글자로 알려 줌(PC는 그대로)
+        btn.textContent = `담았어요 · 지금 ${cart[k].toLocaleString()}개`;
+        clearTimeout(btn._t); btn._t = setTimeout(() => { btn.textContent = "담기"; }, 1500);
+      }
+    };
     el.appendChild(d);
   });
   document.getElementById("more").style.display = hits.length > shown ? "block" : "none";
-  document.getElementById("info").textContent = `부품 ${hits.length.toLocaleString()}종 · 가격 기준 ${D.built} (환율 ${D.fx}원/위안) · 레고 순정 가격은 국내 판매처 ${D.btDay} 기준`;
+  const head = query ? `찾은 부품 ${hits.length.toLocaleString()}종` + (hits.length ? ` · 지금 주문 가능 ${hits.filter(p => p.ok).length.toLocaleString()}종` : "")
+    : `주문 가능한 부품 ${OKP.toLocaleString()}종 · 부품과 색 ${OKC.toLocaleString()}가지`;
+  document.getElementById("info").innerHTML = head + `<br>가격 기준 <span class="nw">${D.built}</span> <span class="nw">(환율 ${D.fx}원/위안)</span> · 레고 순정 가격은 국내 판매처 <span class="nw">${day(D.btDay)}</span> 기준`;
 }
 function quote() {
   let goods = 0, pcs = 0, lego = 0, legoOurs = 0, legoLines = 0; const lines = [];
@@ -140,28 +207,47 @@ function quote() {
   const total = Math.ceil((goods + ship) / D.unit) * D.unit;
   return { goods, pcs, ship, total, lines, qty: total / D.unit, lego, legoOurs, legoLines };
 }
+let cartSeen = false;
+function drawBar(q) {
+  const bar = document.getElementById("bar"), has = q.lines.length > 0;
+  bar.classList.toggle("on", has); bar.classList.toggle("away", cartSeen);
+  document.body.classList.toggle("hasbar", has);
+  if (!has) return;
+  const left = D.minOrder - q.goods;
+  document.getElementById("barT").innerHTML = `<b><span class="nw">부품 ${q.pcs.toLocaleString()}개</span> · ${wonH(q.goods)}</b><br>`
+    + (left > 0 ? `<span class="need">${wonH(left)} 더 담아 주세요</span>` : `<span class="ok">주문 코드 만들 수 있어요</span>`);
+  fitBar();
+}
+// 막대의 실제 높이(아이폰 안전 영역 포함)만큼 아래 여백을 줘서 바닥글을 가리지 않게 함. 막대가 숨어 있으면(0) 지난 값 유지
+function fitBar() {
+  const h = document.getElementById("bar").offsetHeight;
+  if (h) document.body.style.setProperty("--barh", h + "px");
+}
 function drawCart() {
   const L = document.getElementById("lines"), q = quote();
   L.innerHTML = q.lines.length ? "" : '<div class="empty">아직 담은 부품이 없어요.</div>';
   q.lines.forEach(([k, n]) => {
     const { p, o } = byKey[k]; const d = document.createElement("div"); d.className = "line";
-    d.innerHTML = `<div><b>${p.e || p.z}</b><br>${cName(o[0])}<br><span style="color:#68717a">${won(o[1])} × ${n}개</span></div>
-      <div style="text-align:right">${won(o[1] * n)}<br><button class="x">빼기</button></div>`;
+    d.innerHTML = `<div><b>${p.e || p.z}</b><br>${cName(o[0])}<br><span style="color:#68717a">${wonH(o[1])} × <span class="nw">${n}개</span></span></div>
+      <div style="text-align:right">${wonH(o[1] * n)}<br><button class="x">빼기</button></div>`;
     d.querySelector(".x").onclick = () => { delete cart[k]; save(); drawCart(); };
     L.appendChild(d);
   });
   document.getElementById("sum").innerHTML = q.lines.length ? `
-    <div><span>부품 ${q.pcs.toLocaleString()}개</span><span>${won(q.goods)}</span></div>
-    <div><span>배송비</span><span>${won(q.ship)}</span></div>
-    <div class="tot"><span>결제 금액</span><span>${won(q.total)}</span></div>
+    <div><span>부품 ${q.pcs.toLocaleString()}개</span>${wonH(q.goods)}</div>
+    <div><span>배송비</span>${wonH(q.ship)}</div>
+    <div class="tot"><span>결제 금액</span>${wonH(q.total)}</div>
     <div style="color:#68717a;font-size:12px">100원 단위로 올려 계산해요.</div>
     ${q.legoLines && q.lego > q.legoOurs ? `<div class="save">
-      레고 정품으로 샀다면 <b>${won(q.lego)}</b>이에요.<br>
-      <b style="color:#EE5A24;font-size:16px">${won(q.lego - q.legoOurs)} 아껴요</b>
+      레고 정품으로 샀다면 <b>${wonH(q.lego)}</b>이에요.<br>
+      <b style="color:#EE5A24;font-size:16px">${wonH(q.lego - q.legoOurs)} 아껴요</b>
       <div style="color:#707070;font-size:12px">국내 판매처에 정품이 있는 ${q.legoLines}줄의 부품값 기준이에요(배송비 빼고).</div></div>` : ""}
-    ${q.goods < D.minOrder ? `<div style="color:#b54708;font-size:13px;margin-top:6px">부품 ${won(D.minOrder)}부터 주문할 수 있어요. ${won(D.minOrder - q.goods)} 더 담아 주세요.</div>` : ""}` : "";
+    ${q.goods < D.minOrder ? `<div style="display:block;color:#b54708;font-size:13px;margin-top:6px">부품 ${wonH(D.minOrder)}부터 주문할 수 있어요. ${wonH(D.minOrder - q.goods)} 더 담아 주세요.</div>` : ""}` : "";
   document.getElementById("mk").disabled = !q.lines.length || q.goods < D.minOrder;
+  document.getElementById("clr").hidden = !q.lines.length;
+  if (!q.lines.length) document.getElementById("back").style.display = "none";
   document.getElementById("out").innerHTML = "";
+  drawBar(q);
 }
 // 주문 코드 GB2-{(부품*1000+색) 36진수.수량 36진수_…}~{결제금액/100 36진수}~{가격기준}~{검사값}
 function fnv(s) { let h = 0x811c9dc5; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; } return h.toString(36); }
@@ -170,20 +256,71 @@ function makeCode() {
   const body = q.lines.map(([k, n]) => { const [p, c] = k.split("-"); return (parseInt(p, 10) * 1000 + parseInt(c, 10)).toString(36) + "." + n.toString(36); }).join("_")
     + "~" + q.qty.toString(36) + "~" + D.built.replace(/\D/g, "").slice(2);
   const code = "GB2-" + body + "~" + fnv(body);
+  const link = (u, t) => u ? `<a href="${u}" target="_blank" rel="noopener" style="display:block;margin-top:8px;padding:10px;border-radius:8px;background:var(--acc);color:#fff;text-align:center;text-decoration:none;font-weight:700">${t}</a>` : "";
   document.getElementById("out").innerHTML = `
-    <div class="codebox">${code}</div>
+    <div class="codebox" id="code">${code}</div>
     <button class="ghost" id="cp" style="width:100%;margin-top:8px">주문 코드 복사</button>
+    <div class="cphint" id="cph">코드를 골라 두었어요. ${COPY_KEY}</div>
+    <div class="pay"><div class="k">이 상품을 결제할 수량</div><div class="n">${q.qty.toLocaleString()}개</div><div class="k">결제 금액 ${wonH(q.total)} · 1개 ${wonH(D.unit)}</div></div>
+    ${link(PAY_URL, "결제하러 가기")}${link(TALK_URL, "톡톡 열기")}
     <div class="steps"><b>이렇게 주문해 주세요</b><ol>
       <li>위 주문 코드를 복사해요.</li>
-      <li>스마트스토어 「고브릭 부품 주문」 상품을 <b>수량 ${q.qty.toLocaleString()}개</b>(${won(q.total)})로 결제해요.</li>
-      <li>결제 뒤 톡톡으로 주문 코드를 붙여 보내 주세요.</li></ol>
-      재고나 가격이 바뀐 부품이 있으면 주문 전에 톡톡으로 먼저 알려 드려요.</div>`;
-  document.getElementById("cp").onclick = () => navigator.clipboard.writeText(code).then(() => document.getElementById("cp").textContent = "복사했어요");
+      <li>스마트스토어 「고브릭 부품 주문」 상품을 <b>수량 ${q.qty.toLocaleString()}개</b>(${wonH(q.total)})로 결제해요.</li>
+      <li>결제 뒤 톡톡으로 주문 코드를 붙여 보내 주세요.</li></ol></div>
+    <div class="after">
+      <b>결제한 뒤 품절된 부품이 있으면</b>
+      <ul><li>주문을 넣기 전에 고브릭 매장 재고를 확인해요. 그사이 없어진 부품이 있으면 톡톡으로 알려 드리고, 그 부품만 결제 수량에서 빼서(수량 일부 취소) 결제하신 날부터 3영업일 안에 돌려 드려요.</li>
+      <li>다른 색으로 바꾸고 싶으시면 답장 주세요. 다음 영업일까지 답이 없으면 그 부품만 빼고 나머지를 보내 드려요.</li>
+      <li>남은 부품이 ${wonH(D.minOrder)}보다 적어져도 그대로 보내 드려요. 전부 취소하고 싶으시면 말씀해 주세요.</li>
+      <li>결제하신 뒤 값이 올라도 더 받지 않아요.</li></ul>
+      <b>받으신 뒤</b>
+      <ul><li>받으시면 주문 내용과 맞춰 봐 주세요. 빠지거나 색 · 모양이 다른 부품, 깨진 부품은 그 부품값을 돌려 드려요. 원하시면 다음 주문 때 같이 보내 드려요. 주문 코드와 받은 부품을 펼쳐 찍은 사진을 네이버 톡톡으로 보내 주세요.</li></ul></div>`;
+  const cp = document.getElementById("cp"), box = document.getElementById("code"), hint = document.getElementById("cph");
+  const pick = () => { try { const r = document.createRange(); r.selectNodeContents(box); const s = window.getSelection(); s.removeAllRanges(); s.addRange(r); } catch (e) {} };
+  const done = () => { cp.textContent = "복사했어요"; hint.style.display = "none"; };
+  const fail = () => { pick(); hint.style.display = "block"; };   // 복사가 막힌 브라우저: 코드를 골라 둔 채로 안내
+  const legacy = () => { pick(); let ok = false; try { ok = document.execCommand("copy"); } catch (e) {} ok ? done() : fail(); };
+  cp.onclick = () => {
+    if (navigator.clipboard && navigator.clipboard.writeText && window.isSecureContext) navigator.clipboard.writeText(code).then(done, legacy);
+    else legacy();
+  };
 }
 document.getElementById("q").addEventListener("input", search);
 document.getElementById("more").onclick = () => { shown += PAGE; render(); };
 document.getElementById("mk").onclick = makeCode;
+document.getElementById("clr").onclick = () => { if (window.confirm("담은 부품을 모두 비울까요?")) { cart = {}; save(); drawCart(); } };
+const toCart = e => { if (e) e.preventDefault(); document.getElementById("cart").scrollIntoView({ behavior: "smooth", block: "start" }); };
+document.getElementById("barGo").onclick = toCart;
+document.getElementById("backGo").onclick = toCart;
+if ("IntersectionObserver" in window) new IntersectionObserver(es => { cartSeen = es[0].isIntersecting; drawBar(quote()); }).observe(document.getElementById("cart"));
+if ("ResizeObserver" in window) new ResizeObserver(fitBar).observe(document.getElementById("bar"));
+window.addEventListener("resize", fitBar);
+// 다시 들어왔을 때: 그사이 주문이 안 되게 됐거나 목록에서 빠진 줄은 장바구니에서 지우고(다음 빌드에 다시 살아나 옛 수량으로 들어오지 않게)
+// 뺀 개수와 어떤 부품인지 알려 줌(모두 빠진 경우도)
+const goneK = Object.keys(cart).filter(k => !byKey[k] || !byKey[k].o[2] || !byKey[k].o[1]);
+let goneN = 0; const goneL = [];
+goneK.forEach(k => {
+  const n = Math.max(1, parseInt(cart[k], 10) || 0), i = k.lastIndexOf("-"), c = D.colors[k.slice(i + 1)];
+  goneN += n; goneL.push(`GDS-${k.slice(0, i)}${c ? " " + c[0] : ""} ${n.toLocaleString()}개`);
+  delete cart[k];
+});
+if (goneK.length) save();
 render(); drawCart();
+const kept = quote().lines.length;
+if (kept || goneK.length) {   // 지난 장바구니 안내
+  document.getElementById("backT").textContent = !goneK.length ? "지난번에 담은 부품이 있어요."
+    : kept ? `지난번에 담은 부품 중 ${goneN.toLocaleString()}개는 지금 주문할 수 없어 뺐어요.`
+    : `지난번에 담은 부품 ${goneN.toLocaleString()}개는 모두 지금 주문할 수 없어 뺐어요.`;
+  const bl = document.getElementById("backL");
+  if (goneK.length) {   // 「GDS-612 흰색 50개」 한 덩어리는 줄을 나누지 않음
+    bl.textContent = "뺀 부품: ";
+    goneL.slice(0, 3).forEach((t, i) => { const s = document.createElement("span"); s.className = "nw"; s.textContent = t + (i < Math.min(3, goneL.length) - 1 ? "," : ""); bl.append(s, " "); });
+    if (goneL.length > 3) bl.append(`외 ${goneL.length - 3}가지`);
+    bl.hidden = false;
+  }
+  document.getElementById("backGo").hidden = !kept;
+  document.getElementById("back").style.display = "block";
+}
 </script>
 </body>
 </html>
