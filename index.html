@@ -312,7 +312,7 @@ const PAY_URL = "https://smartstore.naver.com/g_jacob/products/13808325554";
 // 비어 있으면 「주문 코드 만들기」 버튼 대신 준비 중 안내. 주소는 배포 뒤 사장님이 주시면 넣어요.
 const ORDER_API = "https://script.google.com/macros/s/AKfycbwT17bmWcA865dbuopvqLJzUulgV8hPyAKZnHV3qHiYEG4NPU5o4n1sIIwhxky0LtFd/exec";   // 사장님 구글 시트 웹 앱(2026-10-14 배포, 「주문코드 v1」)
 const ORDER_TEST = false;        // true 면 시트 「상태」에 「시험」으로 남음(시험 사본에서만 켬)
-const PAGE_VER = "20261019c";    // 시트 「페이지」 칸에 남는 이 페이지 판(20261019a = 분류 · 담은 부품 그림 · 코드 옆 수량, 20261014b = 처음부터 다시 담기 버튼, 20261014a = 레고®에 없는 부품 · 색 모아 보기 칩, 그 전 20261013b = 주문 id · 나눠 주문 · 실패 안내)
+const PAGE_VER = "20261019d";    // 시트 「페이지」 칸에 남는 이 페이지 판(20261019a = 분류 · 담은 부품 그림 · 코드 옆 수량, 20261014b = 처음부터 다시 담기 버튼, 20261014a = 레고®에 없는 부품 · 색 모아 보기 칩, 그 전 20261013b = 주문 id · 나눠 주문 · 실패 안내)
 const ORDER_WAIT = 15000;        // 코드 만들기 기다리는 시간(넘으면 실패로 보고 다시 누르게)
 // 스마트스토어 「고브릭 부품 주문」 상품의 최대 구매수량. 한 번에 결제할 수 있는 금액 = MAX_QTY × 결제 단위(D.unit) — 지금 99,999개 × 10원 = 999,990원.
 // 결제 금액이 이보다 크면 주문 코드를 만들지 않고 나눠 주문해 달라고 안내해요(스토어 최대 구매수량을 바꾸면 여기만 고치면 돼요).
@@ -437,7 +437,7 @@ const NL_SHOW = { "1581": "050", "90296": "010", "90196": "021", "1591": "051", 
 const NL_VIVID = ["010", "050", "021", "072", "080", "071"];
 const okO = o => !!(o && o[2] && o[1]);
 // 옵션별 최대 수량(10/19 사장님 「옵션별 최대 수량 넣어줘」): 고브릭 공식 사이트 재고와 1회 구매 한도 중 작은 값(o[4], 최대 99,999). 없으면 99,999
-const maxOf = k => { const m = byKey[k]; return m && m.o[4] ? m.o[4] : 99999; };   // 주문 가능한 색(가격 있음)
+const maxOf = k => { const m = byKey[k]; return m && m.o[4] ? m.o[4] : 5000; };   // 한 줄 최대 5,000(사장님 2026-10-19)   // 주문 가능한 색(가격 있음)
 const okIn = (p, c) => { const m = byKey[p.p + "-" + c]; return !!(m && okO(m.o)); };
 const NL_N = ALL.filter(p => NOLEGO[p.p] && p.o.some(okO)).length;   // 칩에 보이는 수 = 지금 주문 가능한 것만
 const NL_COLS = NOLEGO_C.filter(c => D.colors[c] && ALL.some(p => okIn(p, c)));   // 고를 수 있는 부품이 있는 색만 칩으로
@@ -573,7 +573,7 @@ function render() {
       if (!o[2]) { pr.innerHTML = sw + "지금 주문 안 돼요"; pr.className = "price na"; btn.disabled = true; return; }
       const cmp = o[3] ? ` <span class="cmp">· 레고 순정 ${wonH(o[3])}</span>` : "";
       const ctg = NOLEGO_C.includes(o[0]) ? ' <span class="tg">지금 레고®에 없는 색</span>' : "";   // 고른 색이 카키 · 연노랑이면
-      const mx = o[4] || 99999; pr.innerHTML = sw + `개당 ${wonH(o[1])}` + cmp + ctg + ` <span class="mx${mx < 1000 ? " low" : ""}">· 최대 ${mx.toLocaleString()}개</span>`; pr.className = "price"; btn.disabled = false; qty.max = mx;
+      const mx = o[4] || 5000; pr.innerHTML = sw + `개당 ${wonH(o[1])}` + cmp + ctg + ` <span class="mx${mx < 1000 ? " low" : ""}">· 최대 ${mx.toLocaleString()}개</span>`; pr.className = "price"; btn.disabled = false; qty.max = mx;
     };
     // 색 칩을 켰으면 그 색을 먼저 골라 둠(두 색 다 되면 칩 순서대로 카키 먼저). 부품 칩만 켰으면 모양이 잘 보이는 색(NL_SHOW · NL_VIVID)
     const pref = NL_COLS.find(c => pkCols.has(c) && okIn(p, c))
