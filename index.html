@@ -55,6 +55,17 @@ button.chip b{color:var(--acc)}
 button.chip[aria-pressed="true"]{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:700}
 button.chip[aria-pressed="true"] b{color:#fff}
 button.chip .sw{margin:0}
+.pick select#catSel{font-size:14px;padding:8px 10px;border:1px solid var(--line);border-radius:8px;background:#fff;color:var(--ink);max-width:100%}
+.pick select#catSel.on{border-color:var(--acc);background:var(--acc2);font-weight:700}
+.part .qb{gap:6px}
+.part .qb button{background:#fff;color:var(--ink);border:1px solid var(--line);padding:6px 12px;font-size:13px;min-width:56px}
+.part .qb button:active{background:var(--acc2)}
+.mx{color:var(--sub)}
+.mx.low{color:#b45309;font-weight:700}
+.k2row{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.qtag{background:var(--acc2);color:var(--acc);font-weight:700;border-radius:999px;padding:3px 12px;font-size:13px;white-space:nowrap}
+.lt{display:flex;gap:8px;align-items:center;min-width:0}
+.lt img{width:44px;height:44px;object-fit:contain;background:#fafafa;border-radius:6px;flex:none}
 @media(max-width:900px){button.chip{min-height:44px}}   /* 휴대폰: 손가락으로 누르기 쉽게 44px(10/14 검증) */
 button.lk{background:none;color:var(--acc);padding:0 2px;font-size:13px;font-weight:700;text-decoration:underline;white-space:normal}
 .part .tg{display:inline-block;font-size:11.5px;line-height:1.5;font-weight:700;color:var(--acc);background:var(--acc2);border-radius:4px;padding:0 6px;white-space:nowrap}
@@ -120,6 +131,8 @@ button.clear{background:none;color:var(--sub);padding:4px 2px;font-size:13px;tex
 /* 결제 안내 상자: 버튼처럼 보이지 않게 옅은 테두리(누르는 것은 아래 버튼들) */
 .pay{margin-top:12px;padding:12px;border:1px solid var(--line);background:#faf8f4;border-radius:10px;text-align:center}
 .pay .k{font-size:13px;color:var(--sub)}
+.pay .k.qs{margin:10px 0 2px;padding:10px 8px;background:var(--acc);color:#fff;border-radius:8px;font-size:16px;font-weight:700;line-height:1.5}
+.pay .k.qs b{font-size:22px;font-weight:800}
 .pay .n{font-size:18px;font-weight:800;line-height:1.3;margin:2px 0}
 .pay .n b{font-size:32px;color:var(--acc)}
 .pay.done{border:1px solid var(--line);background:#fff}
@@ -147,7 +160,8 @@ button.clear{background:none;color:var(--sub);padding:4px 2px;font-size:13px;tex
 /* 끝 화면: 주문 코드 다시 보기(접어 둠) */
 .act details.again{margin-top:10px;font-size:13px}
 .act details.again summary{cursor:pointer;color:var(--sub);text-align:center;padding:4px 0}
-details.after{margin-top:10px;font-size:13px;line-height:1.6;background:#f7f5f0;border-radius:8px;padding:0 12px}
+details.after,div.after{margin-top:10px;font-size:13px;line-height:1.6;background:#f7f5f0;border-radius:8px;padding:9px 12px}
+div.after[hidden]{display:none}
 details.after summary{cursor:pointer;padding:9px 0;font-weight:700}
 details.after[open]{padding-bottom:10px}
 .after b{display:block}
@@ -259,6 +273,7 @@ footer{max-width:1180px;margin:0 auto;padding:14px 16px 24px;border-top:1px soli
     <div class="pick" id="pick" role="group" aria-label="모아 보기" hidden>
       <div class="pg"><button type="button" class="chip" id="pkParts" aria-pressed="false" hidden>레고®에 없는 부품 <b id="pkN"></b></button></div>
       <div class="pg" id="pkCols" hidden><span class="pl" id="pkColsL">지금 레고®에 없는 색</span></div>
+      <div class="pg"><label class="pl" for="catSel">분류</label><select id="catSel"><option value="">전체</option></select></div>
     </div>
     <div class="hint" id="info"></div>
     <div class="grid" id="list"></div>
@@ -268,13 +283,10 @@ footer{max-width:1180px;margin:0 auto;padding:14px 16px 24px;border-top:1px soli
     <div class="head"><h2 id="cartH">담은 부품</h2><button class="clear" id="clr" type="button" hidden>처음부터 다시 담기</button></div>
     <div class="sum" id="sum"></div>
     <div class="act" id="act"></div>
-    <details class="after" id="after" hidden>
-      <summary>결제한 뒤에는?</summary>
-      <b>결제한 뒤 품절된 부품이 있으면</b>
-      <!-- 10/13 사장님: 「3영업일 안에 돌려 드려요 > 부분취소해 드립니다 늬앙스로」 · 다른 색 바꾸기 · 값 올라도 · 받으신 뒤 줄 「빼」 -->
-      <ul><li>주문을 넣기 전에 고브릭 매장 재고를 확인해요. 그사이 없어진 부품이 있으면 톡톡으로 알려 드리고, 그 부품값만큼 부분취소해 드려요.</li>
-      <li>남은 부품이 <span class="nw" id="minT">15,000원</span>보다 적어져도 그대로 보내 드려요. 전부 취소하고 싶으시면 말씀해 주세요.</li></ul>
-    </details>
+    <div class="after note" id="after" hidden>   <!-- 10/19 사장님: 접이식 「결제한 뒤에는?」을 요약해 그냥 안내로(문구는 10/13 확정본 요약) -->
+      <b>안내</b>
+      결제한 뒤 품절된 부품은 톡톡으로 알려 드리고, 그 부품값만큼 부분취소해 드려요. 남은 부품이 <span class="nw" id="minT">15,000원</span>보다 적어져도 그대로 보내 드려요.
+    </div>
     <div class="lines" id="lines"></div>
     <div id="save"></div>
   </aside>
@@ -300,7 +312,7 @@ const PAY_URL = "https://smartstore.naver.com/g_jacob/products/13808325554";
 // 비어 있으면 「주문 코드 만들기」 버튼 대신 준비 중 안내. 주소는 배포 뒤 사장님이 주시면 넣어요.
 const ORDER_API = "https://script.google.com/macros/s/AKfycbwT17bmWcA865dbuopvqLJzUulgV8hPyAKZnHV3qHiYEG4NPU5o4n1sIIwhxky0LtFd/exec";   // 사장님 구글 시트 웹 앱(2026-10-14 배포, 「주문코드 v1」)
 const ORDER_TEST = false;        // true 면 시트 「상태」에 「시험」으로 남음(시험 사본에서만 켬)
-const PAGE_VER = "20261014b";    // 시트 「페이지」 칸에 남는 이 페이지 판(20261014b = 처음부터 다시 담기 버튼, 20261014a = 레고®에 없는 부품 · 색 모아 보기 칩, 그 전 20261013b = 주문 id · 나눠 주문 · 실패 안내)
+const PAGE_VER = "20261019a";    // 시트 「페이지」 칸에 남는 이 페이지 판(20261019a = 분류 · 담은 부품 그림 · 코드 옆 수량, 20261014b = 처음부터 다시 담기 버튼, 20261014a = 레고®에 없는 부품 · 색 모아 보기 칩, 그 전 20261013b = 주문 id · 나눠 주문 · 실패 안내)
 const ORDER_WAIT = 15000;        // 코드 만들기 기다리는 시간(넘으면 실패로 보고 다시 누르게)
 // 스마트스토어 「고브릭 부품 주문」 상품의 최대 구매수량. 한 번에 결제할 수 있는 금액 = MAX_QTY × 결제 단위(D.unit) — 지금 99,999개 × 10원 = 999,990원.
 // 결제 금액이 이보다 크면 주문 코드를 만들지 않고 나눠 주문해 달라고 안내해요(스토어 최대 구매수량을 바꾸면 여기만 고치면 돼요).
@@ -423,14 +435,28 @@ const NOLEGO_C = ["041", "029"];
 // 부품 칩만 켰을 때 먼저 골라 둘 색: 흰색은 그림 바탕(#fafafa)에 묻혀 모양이 안 보여서(10/14 검증) 상세 그림과 같은 색 → 빨강 · 파랑 · 주황 · 진회색 · 검정 · 밝은 회색
 const NL_SHOW = { "1581": "050", "90296": "010", "90196": "021", "1591": "051", "90029": "010", "90030": "010", "90295": "012" };
 const NL_VIVID = ["010", "050", "021", "072", "080", "071"];
-const okO = o => !!(o && o[2] && o[1]);   // 주문 가능한 색(가격 있음)
+const okO = o => !!(o && o[2] && o[1]);
+// 옵션별 최대 수량(10/19 사장님 「옵션별 최대 수량 넣어줘」): 고브릭 공식 사이트 재고와 1회 구매 한도 중 작은 값(o[4], 최대 99,999). 없으면 99,999
+const maxOf = k => { const m = byKey[k]; return m && m.o[4] ? m.o[4] : 99999; };   // 주문 가능한 색(가격 있음)
 const okIn = (p, c) => { const m = byKey[p.p + "-" + c]; return !!(m && okO(m.o)); };
 const NL_N = ALL.filter(p => NOLEGO[p.p] && p.o.some(okO)).length;   // 칩에 보이는 수 = 지금 주문 가능한 것만
 const NL_COLS = NOLEGO_C.filter(c => D.colors[c] && ALL.some(p => okIn(p, c)));   // 고를 수 있는 부품이 있는 색만 칩으로
-let pkParts = false; const pkCols = new Set();
-const picking = () => pkParts || pkCols.size > 0;
+let pkParts = false; const pkCols = new Set(); let catSel = "";
+const picking = () => pkParts || pkCols.size > 0 || !!catSel;
+// 분류(10/19 사장님 「브릭링크 홈페이지처럼 카테고리화 · 전부 조회해서 정확하게」): 브릭링크 카탈로그에서 부품마다 실제 분류를 읽어 옴(2026-10-19, 1,385종).
+// 브릭링크 번호가 없거나 못 읽은 부품은 「그 밖의 부품」. 원본 표 = _db_tools\브릭링크_분류_20261019.json
+const BLC = {"Plate, Modified":"803 813 805 870 1504 817 806 814 646 851 645 723 815 850 849 801 854 816 819 811 904 869 852 812 846 871 644 90199 1075 734 848 847 709 1235 90168 1065 90201 771 1052 1175 710 737 902 571 1060 90032 1061 1080 90178 1062 747 90033 1180 1067 1162 1122 958 90550 1072 735 840 758 844 1191 90349 1197 1121 90037 2186 845 1133 1186 90393 90327 90323 90348","Minifigure, Utensil":"1499 911 90069 1048 1311 1308 2077 2052 2136 20892 1310 90229 2026 2054 90211 2056 20891 90217 90298 1220 2035 1278 2018 90127 2055 90263 90111 2117 2129 90057 2028 90103 90317 90077 2161 90086 90426 2085 90068 20902 2157 90061 90006 2093 2160 2041 2091 90054 21152 90370 90060 90050 90360 2166 90065 90203 2075 2130 2177 90052 1294 2164 90351","Wedge":"1492 1493 802 754 755 745 762 744 90340 90252 730 1577 594 595 1266 1508 1265 593 90045 756 1584 90044 592 1302 1124 898 1168 1167 1076 2199 767 766 600 760 768 761 947 1126 1066 1125 2229 2195 90599 90582 90600 752 90224 90223 90583 90010 2228 90341 90017 90581 90580","Technic, Connector":"915 887 916 918 931 926 917 936 1145 934 919 920 939 960 924 927 1205 1287 935 1051 921 993 992 1537 922 1074 1036 1029 2230 933 1030 1035 937 1005 1178 90506 996 938 1031 941 90161 1003 940 1172 90063 1427 1006 90609","Technic, Panel":"1183 1184 1163 1008 1018 1019 2048 1011 1012 1024 1010 1016 1111 1017 2047 1333 1021 1020 1009 1022 1023 1113 1112 1518 1025 21031 90151 90153 90152 1347 1346 2194 21032 2215 1341 2193 2216 90607 1348 1349 90516 90517 90518 90519 90601","Technic, Liftarm":"664 604 666 669 665 662 688 668 689 583 663 675 690 693 667 670 972 968 694 673 691 695 969 967 966 692 674 970 1002 672 990 1538 1001 1155 1594 1593 2083 1566 1045 2190 1592 997 1181 2214","Brick, Modified":"1117 634 635 1046 636 631 1485 637 649 648 90082 749 632 650 798 610 653 797 647 1079 1193 90466 862 769 953 956 90179 651 711 652 957 738 954 90615 955 2073 90028 2146 1081 90336 90613 90605","Slope":"661 833 589 588 837 1484 832 586 618 838 591 584 619 834 620 621 587 835 732 1269 1404 775 590 721 733 1077 90556 836 776 979 736 901 2105 982 860 90333 981 1176 90507 1536 90048","Plate, Round":"615 603 1436 609 839 1403 1290 608 841 570 569 1500 90158 90300 2045 90501 2191 899 701 842 843 706 90488 705 90141 90098 90572 90218 1050 90039 90034 90584 90072 90081 90331 90535 90616 90557 90533","Hinge":"807 808 829 828 821 820 824 1218 822 823 809 810 1142 825 90167 90016 827 826 1119 894 90228 853 1143 1094 1131 1093 1306 975 1082 1085 1120 1132 90382 1135 1136 1083 90321","Slope, Curved":"659 657 656 654 658 831 1123 660 950 800 712 1507 90162 1015 2181 90338 863 90265 655 1118 90538 741 722 753 90109 1516 90527 90339 90530 90318 90548 90522 90606 90614","Plate":"501 509 504 505 511 512 510 503 585 518 90026 506 520 519 513 507 508 521 517 524 515 514 516 525 528 522 530 696 557 558 526 529 527","Brick, Round":"605 607 799 1574 748 1114 1054 743 1078 952 1224 1153 951 2189 1194 1275 1014 90226 90469 772 90337 1049 90288 2133 90092 90286 1223 90091 90510 90128 2208 90604","Technic, Gear":"1101 1104 1102 1103 1171 1325 1106 1198 1110 1097 1098 1512 1179 1105 1199 1099 1564 1378 1169 1402 1376 1497 1542 21112 1151 1170 1334 1007 1324 90148 1541 90602","Wedge, Plate":"546 547 560 559 1503 549 556 548 555 550 551 554 725 2144 2143 703 702 708 707 726 553 552 700 90047 90046 704 727 897 759 770 90344","Technic":"1055 617 1091 1056 1084 1149 1263 1148 1150 1225 1034 1496 994 995 1195 1144 1026 1335 1343 1336 1494 1331 1357 1356 1359 1358 90457 1330 90456 90364","Bar":"1058 1570 1298 1000 883 884 905 2192 942 90287 90463 1297 1327 961 90075 1534 963 1217 988 728 729 2114 875 90202 90206 987 2116 90571","Technic, Axle":"913 580 579 914 930 908 890 777 577 909 578 574 929 928 1279 576 581 575 90189 910 779 573 778 964 886 1313 885 90569","Brick":"542 532 531 534 540 535 541 572 533 543 536 804 544 537 865 740 538 1545 866 1405 545 539 867 90328 90320 90329 90334","Technic, Brick":"623 622 633 624 625 1206 2196 626 628 976 630 627 582 1565 1087 1088 1073 1089 629 973 974 977 991 971 1090 1286 1174","Wheel, Tire & Tread":"1159 1280 1071 1069 1232 1491 2184 90172 2203 90453 1282 1481 2113 1230 2218 1228 1474 1281 1578 1505 1573 1511 1234 1233 2049 2212","Plant":"1576 1439 1323 2118 1437 90503 1445 1441 1442 90486 1443 90064 90489 90531 1322 2043 1435 90532 943 90586 90523 90529 90324 90595 90592","Wheel":"1264 1158 1160 1490 1267 1070 1068 1231 90353 1226 1092 2198 1579 90277 90038 1229 90352 1227 1340 90004 2221 2014 1473 2202 90354","Windscreen":"1309 2234 90182 1487 1156 21272 2204 21121 2147 1513 90242 1509 1488 2185 90389 1489 90464 90282 90015 90279 90018 90386 90266 90384","Tile, Modified":"818 602 855 1483 90492 1580 1044 796 1271 90553 980 794 90554 932 896 757 2138 2180 90283 90368","Arch":"719 90163 857 681 2183 858 715 720 90078 682 678 679 718 90079 680 677 676 856 90528 90297","Tile, Round":"612 1307 1292 1277 611 1291 1041 965 90301 1276 2182 2175 90521 90512 90043 90499 1152 1187 90362","Technic, Steering":"1283 1147 1146 1465 1033 1466 1464 1495 1486 90268 1173 1028 1463 1540 1128 90012 1539 2213 90618","Window, Glass & Shutter":"791 879 90095 989 877 878 790 792 2179 2037 2188 90500 90315 90123 90450 90007 90439","Door":"763 1295 1296 876 793 1140 1141 1401 1514 1221 1222 1515 90444 90432 90436 90511 90420","Technic, Pin":"888 912 1535 986 2139 925 903 891 892 906 959 2235 923 868 889 1032","Bracket":"642 1567 1377 640 641 643 2140 639 638 2141 714 1057 713 1129 90326 90363","Panel":"785 568 1043 751 773 781 861 787 1272 1042 2027 90410 2030 2217 90555 2137","Window":"783 782 780 872 786 784 2178 2038 873 764 1575 1095 90443 2128 90316","Slope, Inverted":"597 864 598 596 1040 90319 984 683 686 685 2226 684 687 1192","Minifigure, Weapon":"962 1582 2209 90290 90108 2135 90020 90105 90104 21151 20881 1337 90125 2223","Tile":"566 613 561 563 614 564 562 565 567 1039 2187 1116 90197","Cone":"606 1138 946 746 90059 1047 1086 2042 90087 90085 90130 90536","Food & Drink":"2046 1450 2023 1446 1444 90071 2053 1447 90053 2044 90058 2040","Cylinder":"90040 1164 774 1127 1134 1137 90070 90227 90314 90313 90549 90378","Minifigure, Headgear":"2200 2029 2067 90041 2119 2207 90219 2224 90142 90131 90524","Minifigure, Hair":"2068 2155 90144 2156 90139 2154 90138 2173 90235 2172 2149","Minifigure, Body Wear":"1165 90273 2151 90089 1182 90042 2158 90055 2174 90280","Friends":"90121 2059 90120 90126 20391 20392 2060 90241 90221 90222","Container":"1300 1301 1299 1305 1501 90062 1502 2099 90180 90451","Vehicle":"1314 2131 90171 1344 1355 90350 2084 90116 90275 90276","Animal, Body Part":"1462 90247 1583 90049 90490 20882 90504 90187 2092","Fence":"881 882 789 1177 1166 880 90417 90421 90461","Technic, Plate":"900 699 698 983 90309 90311 90325 90310 90308","Wheel, Accessory":"21262 21242 21231 21261 21252 21251 21241 90066 21232","Minifigure, Body Part":"1312 999 1425 1215 1216 998 90115 1345","Vehicle, Mudguard":"1319 1318 90051 90025 1064 2021 90159 90005","Dish":"601 978 945 1188 1289 1189 90355","Hero Factory":"1207 90303 1208 90304 90496 90302 90494","Slope, Curved, Inverted":"795 1270 731 739 90291 90067","Technic, Link":"1204 1203 1274 1027 1059 1212","Rock":"1288 2017 1304 2148 2169 90270","Energy Effect":"90035 2142 90023 90234 2206 90094","Hose, Soft Axle":"1472 1467 1470 1471 1468 1469","Door, Frame":"874 765 1273 1096 90449","Support":"1326 1130 1196 1400 90369","Minifigure, Headgear Accessory":"2031 2066 90135 90134 90099","Aircraft":"2197 1338 2205 90390 1586","Animal, Land":"90101 90100 90232 90084 90559","Propeller":"2225 2034 1185 90113","Tail":"1510 90001 90373 90367","Turntable":"948 949 90429","Antenna":"1316 1317 1328","Animal, Accessory":"2222 90213 90080","Stairs":"90031 2036 2032","Boat":"90008 90132 90271","Riding Cycle":"90244 2220 2219","Pneumatic":"1053 985","Flag":"1406 895","Chain":"90165 90021","Large Figure Part":"2210 90495","Animal, Air":"90074 90102","Projectile Launcher":"90285 90284","Animal, Water":"2024 2097","Mini Doll, Hair":"2086 2078","Tap":"944","Minifigure, Head":"1417","Wing":"1360","Human Tool":"716","Ladder":"750","Technic, Disk":"1268","Plant, Tree":"1440","Road Sign":"2122","String Reel & Winch":"90205","Magnet":"1588","Vehicle, Base":"90027","Cockpit":"1354","Baseplate":"1201","Minifigure, Legs, Modified":"2163","BIONICLE":"90603","Roof":"2168"};
+const CAT_FAM = { Brick: "브릭", Plate: "플레이트", Tile: "타일", Slope: "슬로프", Wedge: "웨지", Technic: "테크닉", Minifigure: "미니피규어", Wheel: "휠 · 타이어", Plant: "식물", Animal: "동물", Window: "창", Door: "문", Hinge: "힌지", Bar: "바", Bracket: "브래킷", Panel: "패널", Arch: "아치", Cone: "콘", Cylinder: "원기둥", Dish: "접시", Fence: "울타리", "Food & Drink": "음식", Windscreen: "윈드스크린", Container: "컨테이너", Rock: "바위", Flag: "깃발", Vehicle: "차량", Aircraft: "항공기", Boat: "배", Propeller: "프로펠러", Hose: "호스", Pneumatic: "공압", Turntable: "턴테이블", Antenna: "안테나", Support: "지지대", Tail: "꼬리", "Energy Effect": "에너지 효과", "Large Figure Part": "대형 피규어 부품", Friends: "프렌즈", "Hero Factory": "히어로 팩토리", Road: "도로", Chain: "체인", Stairs: "계단", Ladder: "사다리", Wing: "날개", "그 밖의 부품": "그 밖의 부품" };
+const CAT_SUB = { "Brick, Modified": "변형 브릭", "Brick, Round": "둥근 브릭", "Plate, Modified": "변형 플레이트", "Plate, Round": "둥근 플레이트", "Tile, Modified": "변형 타일", "Tile, Round": "둥근 타일", "Slope, Curved": "곡면 슬로프", "Slope, Inverted": "뒤집힌 슬로프", "Slope, Curved, Inverted": "뒤집힌 곡면 슬로프", "Wedge, Plate": "웨지 플레이트", "Technic, Axle": "액슬", "Technic, Liftarm": "빔(리프트암)", "Technic, Pin": "핀", "Technic, Connector": "커넥터", "Technic, Gear": "기어", "Technic, Panel": "패널", "Technic, Brick": "브릭", "Technic, Plate": "플레이트", "Technic, Link": "링크", "Technic, Steering": "스티어링", "Technic, Disk": "디스크", "Minifigure, Utensil": "도구·소품", "Minifigure, Weapon": "무기", "Minifigure, Body Part": "몸 부품", "Minifigure, Body Wear": "의복", "Minifigure, Headgear": "모자·투구", "Minifigure, Hair": "머리카락", "Minifigure, Head": "머리", "Minifigure, Headgear Accessory": "모자 장식", "Minifigure, Legs, Modified": "변형 다리", "Wheel, Tire & Tread": "타이어", "Wheel, Accessory": "휠 부속", "Window, Glass & Shutter": "유리·셔터", "Door, Frame": "문틀", "Vehicle, Mudguard": "머드가드", "Vehicle, Base": "차량 바닥", "Animal, Body Part": "동물 몸 부품", "Animal, Air": "새·날것", "Animal, Water": "물고기", "Animal, Land": "육지 동물", "Animal, Accessory": "동물 장신구", "Plant, Tree": "나무", "Hose, Soft Axle": "소프트 액슬" };
+const catFam = c => c.split(",")[0].trim();
+const CATK = {}; Object.entries(BLC).forEach(([c, s]) => s.split(" ").forEach(g => { CATK[g] = c; }));
+ALL.forEach(p => { if (!CATK[p.p]) CATK[p.p] = "그 밖의 부품"; });
+const catKo = c => CAT_SUB[c] || CAT_FAM[c] || "";
+const catLabel = c => { const k = catKo(c); return k ? `${k} · ${c}` : c; };
+const catMatch = (p, sel) => sel.startsWith("fam:") ? catFam(CATK[p.p]) === sel.slice(4) : CATK[p.p] === sel;
 // 켠 칩에 맞는 부품(부품 칩과 색 칩을 같이 켜면 둘 다 맞는 것, 색 칩끼리는 어느 한 색이라도). 지금 주문 가능한 것만
 function pickOk(p) {
+  if (catSel && !catMatch(p, catSel)) return false;
   if (pkParts && !NOLEGO[p.p]) return false;
   if (pkCols.size) return NL_COLS.some(c => pkCols.has(c) && okIn(p, c));
   return p.o.some(okO);
@@ -438,7 +464,9 @@ function pickOk(p) {
 const ro = s => { const c = s.charCodeAt(s.length - 1) - 0xAC00, j = c >= 0 && c <= 11171 ? c % 28 : 0; return s + (j && j !== 8 ? "으로" : "로"); };   // 받침 있으면 「으로」(ㄹ 받침은 「로」)
 function pickName() {
   const cs = NL_COLS.filter(c => pkCols.has(c)).map(c => D.colors[c][0]).join("·");
-  return cs ? ro(cs) + " 고를 수 있는 " + (pkParts ? "레고®에 없는 부품" : "부품") : "레고®에 없는 부품";
+  const base = cs ? ro(cs) + " 고를 수 있는 " + (pkParts ? "레고®에 없는 부품" : "부품") : (pkParts ? "레고®에 없는 부품" : "");
+  const cat = catSel ? (catSel.startsWith("fam:") ? (CAT_FAM[catSel.slice(4)] || catSel.slice(4)) : (catKo(catSel) || catSel)) : "";
+  return cat && base ? cat + " 중 " + base : (cat || base || "모든 부품");
 }
 function syncPick() {
   $("pkParts").setAttribute("aria-pressed", String(pkParts));
@@ -464,7 +492,7 @@ function togglePick(k) {
   syncPick(); writePickHash(); search();
 }
 function pickOff() {   // 모두 끄고 지금 검색어 그대로 전체에서
-  pkParts = false; pkCols.clear(); syncPick(); writePickHash(); search();
+  pkParts = false; pkCols.clear(); catSel = ""; $("catSel").value = ""; syncPick(); writePickHash(); search();
   const f = !$("pkParts").hidden ? $("pkParts") : $("q"); if (f) f.focus({ preventScroll: true });
 }
 (function setupPick() {
@@ -480,6 +508,19 @@ function pickOff() {   // 모두 끄고 지금 검색어 그대로 전체에서
   });
   box.hidden = !NL_COLS.length;
   $("pick").hidden = !(NL_N || NL_COLS.length);
+  const cs = $("catSel"), cn = {}, fam = {};
+  ALL.forEach(p => { if (p.o.some(okO)) { const c = CATK[p.p]; cn[c] = (cn[c] || 0) + 1; const f = catFam(c); fam[f] = (fam[f] || 0) + 1; } });
+  const first = ["Brick", "Plate", "Tile", "Slope", "Wedge", "Technic", "Minifigure", "Wheel"];
+  const fo = f => (first.indexOf(f) + 1 || 99);
+  Object.keys(fam).sort((a, b) => (fo(a) - fo(b)) || (a === "그 밖의 부품") - (b === "그 밖의 부품") || (fam[b] - fam[a])).forEach(f => {
+    const subs = Object.keys(cn).filter(c => catFam(c) === f).sort((a, b) => cn[b] - cn[a]);
+    const og = document.createElement("optgroup"); og.label = `${CAT_FAM[f] ? CAT_FAM[f] + " · " : ""}${f} (${fam[f]})`;
+    if (subs.length > 1) { const o = document.createElement("option"); o.value = "fam:" + f; o.textContent = `${f} 전체 (${fam[f]})`; og.append(o); }
+    subs.forEach(c => { const o = document.createElement("option"); o.value = c; o.textContent = `${catLabel(c)} (${cn[c]})`; og.append(o); });
+    cs.append(og);
+  });
+  cs.onchange = () => { catSel = cs.value; cs.classList.toggle("on", !!catSel); search(); };
+  $("pick").hidden = false;
   readPickHash(); syncPick();
 })();
 
@@ -522,7 +563,8 @@ function render() {
       <div>${nl ? '<span class="tg">레고®에 없는 부품</span>' : ""}<div class="code">${pName(p)}</div>${nl ? `<div class="ko">${nl}</div>` : ""}${lego}<div class="nm">GDS-${p.p}</div></div></div>
       <div class="row"><select>${opts}</select></div>
       <div class="row"><span class="price"></span></div>
-      <div class="row"><input type="number" min="1" value="10"><button>담기</button></div>`;
+      <div class="row"><input type="number" min="0" value="0" inputmode="numeric"><button>담기</button></div>
+      <div class="row qb" role="group" aria-label="수량 더하기"><button type="button" data-n="1">+1</button><button type="button" data-n="5">+5</button><button type="button" data-n="10">+10</button><button type="button" data-n="100">+100</button></div>`;
     const sel = d.querySelector("select"), pr = d.querySelector(".price"), btn = d.querySelector("button"), qty = d.querySelector("input"), img = d.querySelector("img");
     const upd = () => {
       const o = byKey[p.p + "-" + sel.value].o, c = D.colors[o[0]];
@@ -531,16 +573,23 @@ function render() {
       if (!o[2]) { pr.innerHTML = sw + "지금 주문 안 돼요"; pr.className = "price na"; btn.disabled = true; return; }
       const cmp = o[3] ? ` <span class="cmp">· 레고 순정 ${wonH(o[3])}</span>` : "";
       const ctg = NOLEGO_C.includes(o[0]) ? ' <span class="tg">지금 레고®에 없는 색</span>' : "";   // 고른 색이 카키 · 연노랑이면
-      pr.innerHTML = sw + `개당 ${wonH(o[1])}` + cmp + ctg; pr.className = "price"; btn.disabled = false;
+      const mx = o[4] || 99999; pr.innerHTML = sw + `개당 ${wonH(o[1])}` + cmp + ctg + (mx < 99999 ? ` <span class="mx${mx < 1000 ? " low" : ""}">· 최대 ${mx.toLocaleString()}개</span>` : ""); pr.className = "price"; btn.disabled = false; qty.max = mx;
     };
     // 색 칩을 켰으면 그 색을 먼저 골라 둠(두 색 다 되면 칩 순서대로 카키 먼저). 부품 칩만 켰으면 모양이 잘 보이는 색(NL_SHOW · NL_VIVID)
     const pref = NL_COLS.find(c => pkCols.has(c) && okIn(p, c))
       || (pkParts && !pkCols.size && nl ? [NL_SHOW[p.p], ...NL_VIVID].find(c => c && okIn(p, c)) : undefined);
     if (pref) sel.value = pref;
+    d.querySelectorAll(".qb button").forEach(q => { q.onclick = () => {   // 10/19 사장님 「1개가 기본, 옆에 +5 +10 +100 버튼」: 지금 칸의 수에 더함(옵션 최대 수량까지)
+      const mx = maxOf(p.p + "-" + sel.value); qty.value = Math.min(mx, (parseInt(qty.value, 10) || 0) + parseInt(q.dataset.n, 10));
+    }; });
     sel.onchange = upd; upd();
     btn.onclick = () => {
       if (!canEdit()) return;   // 결제를 마친 주문이 있으면 새 주문으로(확인 한 번)
-      const n = Math.max(1, parseInt(qty.value || "0", 10) || 1); const k = p.p + "-" + sel.value;
+      let n = Math.max(0, parseInt(qty.value || "0", 10) || 0); const k = p.p + "-" + sel.value;
+      if (!n) { btn.textContent = "수량을 넣어 주세요"; setTimeout(() => { btn.textContent = "담기"; }, 2000); return; }   // 기본 0(10/19 사장님): +1 · +5 · +10 · +100 이나 직접 입력
+      const mx = maxOf(k), room = mx - (cart[k] || 0);
+      if (room <= 0) { btn.textContent = "최대 " + mx.toLocaleString() + "개"; setTimeout(() => { btn.textContent = "담기"; }, 2500); return; }
+      if (n > room) { n = room; btn.textContent = "최대 " + mx.toLocaleString() + "개까지"; setTimeout(() => { btn.textContent = "담기"; }, 2500); }   // 많이 넣었으면 최대 수량까지만
       cart[k] = (cart[k] || 0) + n; save(); drawCart();
       $("back").style.display = "none";   // 새로 담으면 지난 장바구니 안내는 닫음
       if (MOBILE.matches) {   // 휴대폰은 장바구니가 아래에 있어서 버튼 글자로 알려 줌(PC는 그대로)
@@ -746,8 +795,9 @@ function drawLines(s, q) {
   if (!list.length) L.append(el("div", "empty", "아직 담은 부품이 없어요."));
   list.forEach(([k, n, u]) => {
     const m = byKey[k], i = k.lastIndexOf("-"), c = k.slice(i + 1);
-    const left = el("div", "", el("b", "", m ? pName(m.p) : "GDS-" + k.slice(0, i)), el("br"), cName(c), el("br"),
-      el("span", "u", nw(won(u)), " × ", nw(n.toLocaleString() + "개")));
+    const th = document.createElement("img"); th.alt = ""; th.loading = "lazy"; th.src = IMG(k.slice(0, i), c);   // 10/19 사장님 「담은 부품에 브릭 이미지」
+    const left = el("div", "lt", th, el("div", "", el("b", "", m ? pName(m.p) : "GDS-" + k.slice(0, i)), el("br"), cName(c), el("br"),
+      el("span", "u", nw(won(u)), " × ", nw(n.toLocaleString() + "개"))));
     const right = el("div", "rt", nw(won(u * n)));
     if (s !== 4) { const x = btnEl("삭제", "x", () => { delete cart[k]; save(); drawCart(); }); right.append(el("br"), x); }
     L.append(el("div", "line", left, right));
@@ -833,11 +883,11 @@ function drawAct(s, q) {
     // 한 화면에 위에서부터: 코드 [복사](한 줄) → 얼마 결제(수량은 그 금액을 맞추는 수단으로 작게) → 「주문 코드」 칸에 붙여 넣기 → [결제하러 가기] → 작은 [결제했어요]
     // 주황 꽉 찬 버튼은 지금 할 일 하나: 복사 전 = [복사] · 복사 뒤 = 결제하러 가기 · 다녀온 뒤(went) = 결제했어요
     const went = !!(PAY_URL && ST.went), copied = isCopied();
-    A.append(el("div", "k2", "주문 코드"));
+    A.append(el("div", "k2row", el("div", "k2", "주문 코드"), el("span", "qtag", "주문 수량 ", nw(ST.qty.toLocaleString() + "개"))));   // 10/19 사장님 「주문코드 옆에 옵션 수량」
     A.append(codeRow(went || copied ? "ghost" : ""));
     A.append(el("div", "pay",
       el("div", "n", el("b", "", nw(won(ST.total))), " ", nw("결제해 주세요")),   // 좁은 화면에서는 금액 / 「결제해 주세요」 두 줄로
-      el("div", "k", "수량을 ", nw(ST.qty.toLocaleString() + "개로"), " 넣으면 이 금액이 돼요")));
+      el("div", "k qs", "결제할 때 ", nw("주문 수량을"), " ", el("b", "", nw(ST.qty.toLocaleString() + "개로")), " ", nw("설정해 주세요"))));   // 10/19 사장님 「결제시 주문수량을 000개로 설정」 강조톤
     A.append(el("div", "aline paste", "결제할 때 ", el("b", "", "주문 코드"), " 칸에 붙여 넣어 주세요"));
     const paid = btnEl("결제했어요", went ? "big" : "small", markPaid); paid.id = "paid";
     if (PAY_URL) {
@@ -1295,13 +1345,14 @@ function applyImport(replace) {
       : `담아 둔 부품 중 이 목록에 없는 ${drop.toLocaleString()}줄은 빠져요.\n이 목록으로 바꿀까요?`)) return;
   }
   if (replace) cart = {};
-  IMP.ok.forEach(x => { cart[x.k] = (cart[x.k] || 0) + x.n; });
-  const N = IMP.ok.length, M = IMP.pcs, K = IMP.bad.length;
+  let cut = 0, M = 0;
+  IMP.ok.forEach(x => { const room = Math.max(0, maxOf(x.k) - (cart[x.k] || 0)), n = Math.min(x.n, room); if (n < x.n) cut++; cart[x.k] = (cart[x.k] || 0) + n; M += n; });
+  const N = IMP.ok.length, K = IMP.bad.length;
   save(); drawCart();
   $("back").style.display = "none";   // 새로 담으면 지난 장바구니 안내는 닫음(손으로 담을 때와 같게)
   closeImport();
   impMsg((replace ? `이 목록 ${N.toLocaleString()}줄 ${M.toLocaleString()}개로 바꿨어요.` : `${N.toLocaleString()}줄 ${M.toLocaleString()}개를 담았어요.`)
-    + (K ? ` 없는 것 ${K.toLocaleString()}줄은 뺐어요.` : ""), true);
+    + (K ? ` 없는 것 ${K.toLocaleString()}줄은 뺐어요.` : "") + (cut ? ` 최대 수량이 적은 ${cut.toLocaleString()}줄은 최대 수량까지만 담았어요.` : ""), true);
   // 휴대폰: 빠진 줄이 없을 때만 장바구니로 내려감(빠진 줄이 있으면 이 안내가 보이게 그대로 — 아래 막대에 합계가 보임)
   if (MOBILE.matches && !K) toCart();
 }
@@ -1361,7 +1412,8 @@ goneK.forEach(k => {
   goneN += n; goneL.push(`GDS-${k.slice(0, i)}${c ? " " + c[0] : ""} ${n.toLocaleString()}개`);
   delete cart[k];
 });
-if (goneK.length) save();
+let capped = 0; Object.keys(cart).forEach(k => { const mx = maxOf(k); if (!(ST && ST.paid) && cart[k] > mx) { cart[k] = mx; capped++; } });
+if (goneK.length || capped) save();
 $("minT").textContent = won(D.minOrder);
 if (picking()) search(); else render();   // 주소 끝(#nolego 등)으로 모아 보기를 켜고 들어왔으면 그 목록부터
 drawCart();
