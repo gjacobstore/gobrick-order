@@ -312,7 +312,7 @@ const PAY_URL = "https://smartstore.naver.com/g_jacob/products/13808325554";
 // 비어 있으면 「주문 코드 만들기」 버튼 대신 준비 중 안내. 주소는 배포 뒤 사장님이 주시면 넣어요.
 const ORDER_API = "https://script.google.com/macros/s/AKfycbwT17bmWcA865dbuopvqLJzUulgV8hPyAKZnHV3qHiYEG4NPU5o4n1sIIwhxky0LtFd/exec";   // 사장님 구글 시트 웹 앱(2026-10-14 배포, 「주문코드 v1」)
 const ORDER_TEST = false;        // true 면 시트 「상태」에 「시험」으로 남음(시험 사본에서만 켬)
-const PAGE_VER = "20261019a";    // 시트 「페이지」 칸에 남는 이 페이지 판(20261019a = 분류 · 담은 부품 그림 · 코드 옆 수량, 20261014b = 처음부터 다시 담기 버튼, 20261014a = 레고®에 없는 부품 · 색 모아 보기 칩, 그 전 20261013b = 주문 id · 나눠 주문 · 실패 안내)
+const PAGE_VER = "20261019b";    // 시트 「페이지」 칸에 남는 이 페이지 판(20261019a = 분류 · 담은 부품 그림 · 코드 옆 수량, 20261014b = 처음부터 다시 담기 버튼, 20261014a = 레고®에 없는 부품 · 색 모아 보기 칩, 그 전 20261013b = 주문 id · 나눠 주문 · 실패 안내)
 const ORDER_WAIT = 15000;        // 코드 만들기 기다리는 시간(넘으면 실패로 보고 다시 누르게)
 // 스마트스토어 「고브릭 부품 주문」 상품의 최대 구매수량. 한 번에 결제할 수 있는 금액 = MAX_QTY × 결제 단위(D.unit) — 지금 99,999개 × 10원 = 999,990원.
 // 결제 금액이 이보다 크면 주문 코드를 만들지 않고 나눠 주문해 달라고 안내해요(스토어 최대 구매수량을 바꾸면 여기만 고치면 돼요).
@@ -514,8 +514,8 @@ function pickOff() {   // 모두 끄고 지금 검색어 그대로 전체에서
   const fo = f => (first.indexOf(f) + 1 || 99);
   Object.keys(fam).sort((a, b) => (fo(a) - fo(b)) || (a === "그 밖의 부품") - (b === "그 밖의 부품") || (fam[b] - fam[a])).forEach(f => {
     const subs = Object.keys(cn).filter(c => catFam(c) === f).sort((a, b) => cn[b] - cn[a]);
-    const og = document.createElement("optgroup"); og.label = `${CAT_FAM[f] ? CAT_FAM[f] + " · " : ""}${f} (${fam[f]})`;
-    if (subs.length > 1) { const o = document.createElement("option"); o.value = "fam:" + f; o.textContent = `${f} 전체 (${fam[f]})`; og.append(o); }
+    const og = document.createElement("optgroup"); og.label = `${CAT_FAM[f] ? CAT_FAM[f] + " · " : ""}${f}`;   // 묶음 이름에는 개수를 안 넣음(아래 「전체」 줄과 겹쳐 보여서)
+    if (subs.length > 1) { const o = document.createElement("option"); o.value = "fam:" + f; o.textContent = `${CAT_FAM[f] || f} 전체 (${fam[f]})`; og.append(o); }
     subs.forEach(c => { const o = document.createElement("option"); o.value = c; o.textContent = `${catLabel(c)} (${cn[c]})`; og.append(o); });
     cs.append(og);
   });
