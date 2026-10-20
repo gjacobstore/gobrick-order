@@ -62,6 +62,25 @@ button.chip .sw{margin:0}
 .part .qb button:active{background:var(--acc2)}
 .mx{color:var(--sub)}
 .mx.low{color:#b45309;font-weight:700}
+button.gl{background:var(--acc);color:#fff;border:0;border-radius:999px;padding:5px 12px;font-size:13px;font-weight:700;margin-left:6px;white-space:nowrap}
+dialog.guide{border:0;border-radius:14px;padding:0;width:min(560px,94vw);max-height:88vh;color:var(--ink);box-shadow:0 12px 40px rgba(0,0,0,.28)}
+dialog.guide::backdrop{background:rgba(0,0,0,.45)}
+.guide .gh{display:flex;justify-content:space-between;align-items:center;padding:14px 16px;border-bottom:1px solid var(--line);position:sticky;top:0;background:#fff;z-index:1}
+.guide .gh b{font-size:17px}
+.guide .gx{background:none;border:0;font-size:24px;line-height:1;padding:2px 8px;color:var(--sub)}
+.guide .gb{padding:6px 16px 12px;overflow:auto;max-height:calc(88vh - 120px);font-size:14px;line-height:1.65;word-break:keep-all;overflow-wrap:anywhere}
+.guide ol.gs{list-style:none;margin:10px 0;padding:0}
+.guide ol.gs>li{display:grid;grid-template-columns:30px 1fr;gap:4px 10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.guide ol.gs>li:last-child{border-bottom:0}
+.guide .gn{width:26px;height:26px;border-radius:50%;background:var(--acc);color:#fff;font-weight:800;text-align:center;line-height:26px;font-size:13px}
+.guide h3{margin:0 0 2px;font-size:15px}
+.guide p{margin:2px 0;color:#444}
+.guide ul{margin:4px 0 0;padding-left:18px;color:#444}
+.guide .key{background:var(--acc2);border-radius:8px;padding:8px 10px;margin:6px 0;font-weight:700;color:var(--ink)}
+.guide .gq{margin:12px 0 4px;font-size:15px}
+.guide .gf{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 16px 14px;border-top:1px solid var(--line);background:#fff}
+.guide .gf label{font-size:13px;color:var(--sub)}
+.guide .gf button.ok{background:var(--acc);color:#fff;border:0;border-radius:8px;padding:10px 20px;font-size:15px;font-weight:700}
 .k2row{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
 .qtag{background:var(--acc2);color:var(--acc);font-weight:700;border-radius:999px;padding:3px 12px;font-size:13px;white-space:nowrap}
 .lt{display:flex;gap:8px;align-items:center;min-width:0}
@@ -251,7 +270,7 @@ footer{max-width:1180px;margin:0 auto;padding:14px 16px 24px;border-top:1px soli
 <body>
 <header>
   <div class="brand"><img src="gjacob_logo.png" alt="G제이콥스토어"><div><div class="store">구매부터 완성까지, G제이콥스토어</div><h1>고브릭(GOBRICKS) 부품 주문</h1></div></div>
-  <p>레고® 호환 고브릭 부품을 골라 담아 주문해요. 받기까지 영업일 5~13일 걸려요.</p>
+  <p>레고® 호환 고브릭 부품을 골라 담아 주문해요. 받기까지 영업일 5~13일 걸려요. <button type="button" class="gl" id="guideBtn">주문 방법 보기</button></p>
 </header>
 <nav class="flow" aria-label="주문 순서">
   <ol id="flow">
@@ -302,6 +321,44 @@ footer{max-width:1180px;margin:0 auto;padding:14px 16px 24px;border-top:1px soli
   </div>
 </div>
 <script src="parts.js"></script>
+<dialog class="guide" id="guide" aria-labelledby="guideT">
+  <div class="gh"><b id="guideT">주문 방법 안내</b><button type="button" class="gx" id="guideX" aria-label="닫기">×</button></div>
+  <div class="gb">
+    <ol class="gs">
+      <li><span class="gn">1</span><div><h3>부품 담기</h3>
+        <p>레고® 번호(3023)·영어 이름·GDS 번호로 찾거나, 「분류」에서 골라요. 색을 고르고 수량을 넣어 「담기」를 눌러요.</p>
+        <ul><li>수량 칸 아래 +1 · +5 · +10 · +100 버튼으로 더할 수 있어요.</li>
+        <li>많이 담을 때는 「목록으로 한 번에 담기」에서 양식(엑셀)을 받아 부품번호·색·수량을 적어 올려요.</li>
+        <li>「레고®에 없는 부품」 · 「지금 레고®에 없는 색」 버튼으로 고브릭에만 있는 모양과 색을 모아 볼 수 있어요.</li></ul></div></li>
+      <li><span class="gn">2</span><div><h3>담은 부품 확인</h3>
+        <p>오른쪽(휴대폰은 아래)의 「담은 부품」에서 부품값과 배송비, 결제 금액을 확인해요.</p>
+        <ul><li>부품 합계가 <b>15,000원 이상</b>이어야 주문할 수 있어요.</li>
+        <li>한 부품·한 색은 <b>최대 5,000개</b>까지예요. 재고가 적은 색은 카드에 나온 「최대 ○개」까지만 담겨요.</li>
+        <li>한 번에 결제할 수 있는 금액은 <b>999,990원</b>까지예요. 넘으면 두 번에 나눠 주문해 주세요.</li>
+        <li>배송비는 부품 500개까지 5,000원, 500개가 늘 때마다 500원이 더해져요(결제 금액에 포함).</li>
+        <li>잘못 담은 줄은 「삭제」, 처음부터 다시 하려면 「처음부터 다시 담기」를 눌러요.</li></ul></div></li>
+      <li><span class="gn">3</span><div><h3>주문 코드 만들기</h3>
+        <p>다 담으셨으면 「주문 코드 만들기」를 눌러요. <b>GB1020-001-20050</b> 같은 코드가 나와요. 「복사」를 눌러 두세요.</p>
+        <ul><li>코드는 담은 부품 내용과 이어져 있어요. 결제 전에 부품을 바꾸면 새 코드가 만들어져요. 결제는 <b>마지막 코드</b>로 해 주세요.</li></ul></div></li>
+      <li><span class="gn">4</span><div><h3>스마트스토어에서 결제</h3>
+        <p>「결제하러 가기」를 누르면 스마트스토어의 「고브릭 부품 주문」 상품이 열려요.</p>
+        <div class="key">① 주문 수량을 화면에 나온 개수로 설정해요 (결제 금액 = 코드 금액)<br>② 「주문 코드」 칸에 복사한 코드를 붙여 넣어요<br>③ 결제해요</div>
+        <ul><li>수량과 코드가 맞지 않으면 주문이 접수되지 않아요. 다르게 결제했다면 톡톡으로 알려 주세요.</li></ul></div></li>
+      <li><span class="gn">5</span><div><h3>결제 뒤</h3>
+        <p>돌아와서 「결제했어요」를 눌러 두세요. 같은 화면에서 새 주문을 시작할 수 있어요.</p>
+        <ul><li>결제가 확인되면 G제이콥스토어가 고브릭에 주문을 넣어요.</li>
+        <li>받기까지 <b>영업일 5~13일</b> 걸려요.</li>
+        <li>그사이 품절된 부품이 있으면 톡톡으로 알려 드리고, 그 부품값만큼 부분취소해 드려요. 남은 부품이 15,000원보다 적어져도 그대로 보내 드려요.</li></ul></div></li>
+    </ol>
+    <h3 class="gq">자주 묻는 것</h3>
+    <ul>
+      <li><b>10개도 살 수 있나요?</b> 네, 1개부터 담을 수 있어요. 다만 담은 부품 합계가 15,000원 이상이어야 해요.</li>
+      <li><b>다른 색으로 바꾸고 싶어요.</b> 결제 전이면 「삭제」 후 다시 담고 새 코드를 만들어요. 결제 뒤에는 톡톡으로 문의해 주세요.</li>
+      <li><b>코드를 잃어버렸어요.</b> 같은 브라우저에서 이 페이지를 열면 담은 부품과 코드가 남아 있어요. 안 보이면 톡톡으로 문의해 주세요.</li>
+    </ul>
+  </div>
+  <div class="gf"><label><input type="checkbox" id="guideNo"> 다시 열지 않기</label><button type="button" class="ok" id="guideOk">확인</button></div>
+</dialog>
 <script>
 const D = window.GB_DATA, PAGE = 40;
 // 「결제하러 가기」: 스마트스토어 「고브릭 부품 주문」 상품 주소(③ 결제하기 단계 버튼 — 비우면 버튼 없이 글로 안내).
@@ -312,7 +369,7 @@ const PAY_URL = "https://smartstore.naver.com/g_jacob/products/13808325554";
 // 비어 있으면 「주문 코드 만들기」 버튼 대신 준비 중 안내. 주소는 배포 뒤 사장님이 주시면 넣어요.
 const ORDER_API = "https://script.google.com/macros/s/AKfycbwT17bmWcA865dbuopvqLJzUulgV8hPyAKZnHV3qHiYEG4NPU5o4n1sIIwhxky0LtFd/exec";   // 사장님 구글 시트 웹 앱(2026-10-14 배포, 「주문코드 v1」)
 const ORDER_TEST = false;        // true 면 시트 「상태」에 「시험」으로 남음(시험 사본에서만 켬)
-const PAGE_VER = "20261019d";    // 시트 「페이지」 칸에 남는 이 페이지 판(20261019a = 분류 · 담은 부품 그림 · 코드 옆 수량, 20261014b = 처음부터 다시 담기 버튼, 20261014a = 레고®에 없는 부품 · 색 모아 보기 칩, 그 전 20261013b = 주문 id · 나눠 주문 · 실패 안내)
+const PAGE_VER = "20261020a";    // 시트 「페이지」 칸에 남는 이 페이지 판(20261019a = 분류 · 담은 부품 그림 · 코드 옆 수량, 20261014b = 처음부터 다시 담기 버튼, 20261014a = 레고®에 없는 부품 · 색 모아 보기 칩, 그 전 20261013b = 주문 id · 나눠 주문 · 실패 안내)
 const ORDER_WAIT = 15000;        // 코드 만들기 기다리는 시간(넘으면 실패로 보고 다시 누르게)
 // 스마트스토어 「고브릭 부품 주문」 상품의 최대 구매수량. 한 번에 결제할 수 있는 금액 = MAX_QTY × 결제 단위(D.unit) — 지금 99,999개 × 10원 = 999,990원.
 // 결제 금액이 이보다 크면 주문 코드를 만들지 않고 나눠 주문해 달라고 안내해요(스토어 최대 구매수량을 바꾸면 여기만 고치면 돼요).
@@ -1441,6 +1498,17 @@ if (going && !goneK.length) {   // 결제를 마친 주문은 할 일이 없으�
   $("backNew").hidden = !kept || s0 === 4;   // 결제를 마친 주문은 「새 주문 시작」이 따로 있음
   $("back").style.display = "block";
 }
+// 주문 방법 안내 팝업(10/20 사장님 「주문시스템 가이드 자세히 만들어서 팝업으로 띄워서 공개」): 처음 열 때 한 번 자동으로 뜨고, 「주문 방법 보기」로 다시 열 수 있음
+(function () {
+  const dlg = $("guide"); if (!dlg || !dlg.showModal) return;
+  const KEY = "gb_guide_seen";
+  const seen = () => { try { return localStorage.getItem(KEY) === "1"; } catch (e) { return false; } };
+  const open = () => { try { dlg.showModal(); dlg.querySelector(".gb").scrollTop = 0; } catch (e) {} };
+  const close = () => { try { if ($("guideNo").checked) localStorage.setItem(KEY, "1"); } catch (e) {} dlg.close(); };
+  $("guideBtn").onclick = open; $("guideX").onclick = close; $("guideOk").onclick = close;
+  dlg.addEventListener("click", e => { if (e.target === dlg) close(); });
+  if (!seen() && !location.hash) setTimeout(open, 600);   // 주소 끝 #nolego 등으로 들어온 손님에게는 띄우지 않음
+})();
 </script>
 </body>
 </html>
