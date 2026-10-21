@@ -77,7 +77,11 @@ dialog.guide::backdrop{background:rgba(0,0,0,.45)}
 .guide p{margin:2px 0;color:#444}
 .guide ul{margin:4px 0 0;padding-left:18px;color:#444}
 .guide .key{background:var(--acc2);border-radius:8px;padding:8px 10px;margin:6px 0;font-weight:700;color:var(--ink)}
-.guide .gq{margin:12px 0 4px;font-size:15px}
+.guide .key{border:2px solid #EE5A24;font-size:15px;line-height:1.5;padding:10px 12px}
+.guide .key b{color:#EE5A24;font-size:18px}
+.guide svg.gi{width:100%;height:auto;display:block;margin:6px 0 4px}
+.guide .gcs{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
+.guide .gc{background:#f4f1ea;border-radius:999px;padding:3px 10px;font-size:12px;color:#444}
 .guide .gf{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 16px 14px;border-top:1px solid var(--line);background:#fff}
 .guide .gf label{font-size:13px;color:var(--sub)}
 .guide .gf button.ok{background:var(--acc);color:#fff;border:0;border-radius:8px;padding:10px 20px;font-size:15px;font-weight:700}
@@ -322,42 +326,50 @@ footer{max-width:1180px;margin:0 auto;padding:14px 16px 24px;border-top:1px soli
 </div>
 <script src="parts.js"></script>
 <dialog class="guide" id="guide" aria-labelledby="guideT">
-  <div class="gh"><b id="guideT">주문 방법 안내</b><button type="button" class="gx" id="guideX" aria-label="닫기">×</button></div>
+  <div class="gh"><b id="guideT">주문 방법 4단계</b><button type="button" class="gx" id="guideX" aria-label="닫기">×</button></div>
   <div class="gb">
     <ol class="gs">
-      <li><span class="gn">1</span><div><h3>부품 담기</h3>
-        <p>레고® 번호(3023)·영어 이름·GDS 번호로 찾거나, 「분류」에서 골라요. 색을 고르고 수량을 넣어 「담기」를 눌러요.</p>
-        <ul><li>수량 칸 아래 +1 · +5 · +10 · +100 버튼으로 더할 수 있어요.</li>
-        <li>많이 담을 때는 「목록으로 한 번에 담기」에서 양식(엑셀)을 받아 부품번호·색·수량을 적어 올려요.</li>
-        <li>「레고®에 없는 부품」 · 「지금 레고®에 없는 색」 버튼으로 고브릭에만 있는 모양과 색을 모아 볼 수 있어요.</li></ul></div></li>
-      <li><span class="gn">2</span><div><h3>담은 부품 확인</h3>
-        <p>오른쪽(휴대폰은 아래)의 「담은 부품」에서 부품값과 배송비, 결제 금액을 확인해요.</p>
-        <ul><li>부품 합계가 <b>15,000원 이상</b>이어야 주문할 수 있어요.</li>
-        <li>한 부품·한 색은 <b>최대 5,000개</b>까지예요. 재고가 적은 색은 카드에 나온 「최대 ○개」까지만 담겨요.</li>
-        <li>한 번에 결제할 수 있는 금액은 <b>999,990원</b>까지예요. 넘으면 두 번에 나눠 주문해 주세요.</li>
-        <li>배송비는 부품 500개까지 5,000원, 500개가 늘 때마다 500원이 더해져요(결제 금액에 포함).</li>
-        <li>잘못 담은 줄은 「삭제」, 처음부터 다시 하려면 「처음부터 다시 담기」를 눌러요.</li></ul></div></li>
-      <li><span class="gn">3</span><div><h3>주문 코드 만들기</h3>
-        <p>다 담으셨으면 「주문 코드 만들기」를 눌러요. <b>GB1020-001-20050</b> 같은 코드가 나와요. 「복사」를 눌러 두세요.</p>
-        <ul><li>코드는 담은 부품 내용과 이어져 있어요. 결제 전에 부품을 바꾸면 새 코드가 만들어져요. 결제는 <b>마지막 코드</b>로 해 주세요.</li></ul></div></li>
-      <li><span class="gn">4</span><div><h3>스마트스토어에서 결제</h3>
-        <p>「결제하러 가기」를 누르면 스마트스토어의 「고브릭 부품 주문」 상품이 열려요.</p>
-        <div class="key">① 주문 수량을 화면에 나온 개수로 설정해요 (결제 금액 = 코드 금액)<br>② 「주문 코드」 칸에 복사한 코드를 붙여 넣어요<br>③ 결제해요</div>
-        <ul><li>수량과 코드가 맞지 않으면 주문이 접수되지 않아요. 다르게 결제했다면 톡톡으로 알려 주세요.</li></ul></div></li>
-      <li><span class="gn">5</span><div><h3>결제 뒤</h3>
-        <p>돌아와서 「결제했어요」를 눌러 두세요. 같은 화면에서 새 주문을 시작할 수 있어요.</p>
-        <ul><li>결제가 확인되면 G제이콥스토어가 고브릭에 주문을 넣어요.</li>
-        <li>받기까지 <b>영업일 5~13일</b> 걸려요.</li>
-        <li>그사이 품절된 부품이 있으면 톡톡으로 알려 드리고, 그 부품값만큼 부분취소해 드려요. 남은 부품이 15,000원보다 적어져도 그대로 보내 드려요.</li></ul></div></li>
+      <li><span class="gn">1</span><div><h3>부품 담기</h3><p>색과 수량을 정해 「담기」 · 부품당 최대 5,000개</p><svg class="gi" viewBox="0 0 320 120" role="img" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+<rect x="8" y="8" width="304" height="104" rx="12" fill="#fff" stroke="#e1dbd0" stroke-width="1.5"/>
+<rect x="20" y="20" width="56" height="56" rx="8" fill="#f4f1ea"/><rect x="34" y="40" width="28" height="14" rx="3" fill="#2b2b2b"/><circle cx="41" cy="38" r="4" fill="#2b2b2b"/><circle cx="55" cy="38" r="4" fill="#2b2b2b"/>
+<text x="90" y="34" font-size="12" font-weight="700" fill="#2b2b2b">Plate 1 x 2</text><text x="90" y="50" font-size="10" fill="#707070">GDS-502 · 검정 · 개당 50원</text>
+<rect x="20" y="84" width="46" height="22" rx="6" fill="#fff" stroke="#d6d0c4"/><text x="43" y="99" font-size="12" text-anchor="middle" fill="#2b2b2b">0</text>
+<rect x="72" y="84" width="48" height="22" rx="6" fill="#EE5A24"/><text x="96" y="99" font-size="12" font-weight="700" text-anchor="middle" fill="#fff">담기</text>
+<g font-size="11" text-anchor="middle" fill="#2b2b2b"><rect x="132" y="84" width="34" height="22" rx="11" fill="#fdeee6" stroke="#EE5A24"/><text x="149" y="99">+1</text><rect x="172" y="84" width="34" height="22" rx="11" fill="#fdeee6" stroke="#EE5A24"/><text x="189" y="99">+5</text><rect x="212" y="84" width="40" height="22" rx="11" fill="#fdeee6" stroke="#EE5A24"/><text x="232" y="99">+10</text><rect x="258" y="84" width="46" height="22" rx="11" fill="#fdeee6" stroke="#EE5A24"/><text x="281" y="99">+100</text></g></svg></div></li>
+      <li><span class="gn">2</span><div><h3>담은 부품 확인</h3><p>부품 합계 15,000원 이상</p><svg class="gi" viewBox="0 0 320 120" role="img" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+<rect x="8" y="8" width="304" height="104" rx="12" fill="#fff" stroke="#e1dbd0" stroke-width="1.5"/>
+<text x="22" y="30" font-size="12" font-weight="700" fill="#2b2b2b">담은 부품</text>
+<text x="22" y="50" font-size="11" fill="#555">부품 215개</text><text x="298" y="50" font-size="11" text-anchor="end" fill="#555">15,050원</text>
+<text x="22" y="66" font-size="11" fill="#555">배송비</text><text x="298" y="66" font-size="11" text-anchor="end" fill="#555">5,000원</text>
+<line x1="22" y1="74" x2="298" y2="74" stroke="#e8e4dd"/>
+<text x="22" y="94" font-size="13" font-weight="800" fill="#2b2b2b">결제 금액</text><text x="298" y="95" font-size="15" font-weight="800" text-anchor="end" fill="#EE5A24">20,050원</text>
+<rect x="22" y="100" width="276" height="5" rx="2.5" fill="#EE5A24"/></svg></div></li>
+      <li><span class="gn">3</span><div><h3>주문 코드 복사</h3><p>「주문 코드 만들기」 → 「복사」</p><svg class="gi" viewBox="0 0 320 120" role="img" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+<rect x="8" y="8" width="304" height="104" rx="12" fill="#fff" stroke="#e1dbd0" stroke-width="1.5"/>
+<text x="22" y="30" font-size="11" fill="#707070">주문 코드</text><rect x="186" y="16" width="112" height="20" rx="10" fill="#fdeee6"/><text x="242" y="30" font-size="11" font-weight="800" text-anchor="middle" fill="#EE5A24">주문 수량 2,005개</text>
+<rect x="22" y="38" width="196" height="38" rx="8" fill="#f2f4f7"/><text x="120" y="62" font-size="14" font-weight="700" text-anchor="middle" font-family="ui-monospace,Consolas,monospace" fill="#2b2b2b">GB1020-001-20050</text>
+<rect x="226" y="38" width="72" height="38" rx="8" fill="#EE5A24"/><text x="262" y="62" font-size="14" font-weight="700" text-anchor="middle" fill="#fff">복사</text>
+<rect x="22" y="86" width="276" height="18" rx="9" fill="#fdeee6"/><text x="160" y="99" font-size="11" text-anchor="middle" fill="#EE5A24" font-weight="700">주문 코드 만들기 → 복사</text></svg></div></li>
+      <li><span class="gn">4</span><div><h3>스마트스토어에서 결제</h3><p><div class="key">① 수량 칸에 <b>주문 수량 그대로</b> 입력 → ② 코드 붙여 넣기 → 결제</div></p><svg class="gi" viewBox="0 0 320 220" role="img" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+<rect x="8" y="8" width="304" height="204" rx="12" fill="#fff" stroke="#e1dbd0" stroke-width="1.5"/>
+<text x="22" y="30" font-size="13" font-weight="800" fill="#2b2b2b">고브릭 부품 주문</text>
+<text x="298" y="30" font-size="11" text-anchor="end" fill="#707070">스마트스토어</text>
+<line x1="22" y1="40" x2="298" y2="40" stroke="#e8e4dd"/>
+<text x="22" y="60" font-size="11" fill="#555">주문 코드</text>
+<rect x="22" y="66" width="276" height="26" rx="6" fill="#fff" stroke="#EE5A24" stroke-width="2.5"/>
+<text x="160" y="84" font-size="12" font-weight="700" text-anchor="middle" font-family="ui-monospace,Consolas,monospace" fill="#2b2b2b">GB1020-001-20050</text>
+<circle cx="14" cy="79" r="9" fill="#EE5A24"/><text x="14" y="83" font-size="11" font-weight="800" text-anchor="middle" fill="#fff">2</text>
+<text x="22" y="114" font-size="11" fill="#555">수량</text>
+<rect x="22" y="120" width="276" height="40" rx="8" fill="#fff" stroke="#EE5A24" stroke-width="3.5"/>
+<rect x="30" y="126" width="28" height="28" rx="6" fill="#f4f1ea"/><text x="44" y="146" font-size="16" text-anchor="middle" fill="#555">−</text>
+<text x="160" y="149" font-size="22" font-weight="900" text-anchor="middle" fill="#EE5A24">2,005</text>
+<rect x="262" y="126" width="28" height="28" rx="6" fill="#f4f1ea"/><text x="276" y="146" font-size="16" text-anchor="middle" fill="#555">+</text>
+<circle cx="14" cy="140" r="9" fill="#EE5A24"/><text x="14" y="144" font-size="11" font-weight="800" text-anchor="middle" fill="#fff">1</text>
+<text x="22" y="182" font-size="11" fill="#555">총 결제 금액</text><text x="298" y="183" font-size="14" font-weight="800" text-anchor="end" fill="#2b2b2b">20,050원</text>
+<rect x="22" y="190" width="276" height="16" rx="8" fill="#2b2b2b"/><text x="160" y="202" font-size="11" font-weight="700" text-anchor="middle" fill="#fff">구매하기</text></svg></div></li>
     </ol>
-    <h3 class="gq">자주 묻는 것</h3>
-    <ul>
-      <li><b>10개도 살 수 있나요?</b> 네, 1개부터 담을 수 있어요. 다만 담은 부품 합계가 15,000원 이상이어야 해요.</li>
-      <li><b>다른 색으로 바꾸고 싶어요.</b> 결제 전이면 「삭제」 후 다시 담고 새 코드를 만들어요. 결제 뒤에는 톡톡으로 문의해 주세요.</li>
-      <li><b>코드를 잃어버렸어요.</b> 같은 브라우저에서 이 페이지를 열면 담은 부품과 코드가 남아 있어요. 안 보이면 톡톡으로 문의해 주세요.</li>
-    </ul>
   </div>
-  <div class="gf"><label><input type="checkbox" id="guideNo"> 다시 열지 않기</label><button type="button" class="ok" id="guideOk">확인</button></div>
+  <div class="gf"><label><input type="checkbox" id="guideNo"> 오늘 열지 않기</label><button type="button" class="ok" id="guideOk">확인</button></div>
 </dialog>
 <script>
 const D = window.GB_DATA, PAGE = 40;
@@ -369,7 +381,7 @@ const PAY_URL = "https://smartstore.naver.com/g_jacob/products/13808325554";
 // 비어 있으면 「주문 코드 만들기」 버튼 대신 준비 중 안내. 주소는 배포 뒤 사장님이 주시면 넣어요.
 const ORDER_API = "https://script.google.com/macros/s/AKfycbwT17bmWcA865dbuopvqLJzUulgV8hPyAKZnHV3qHiYEG4NPU5o4n1sIIwhxky0LtFd/exec";   // 사장님 구글 시트 웹 앱(2026-10-14 배포, 「주문코드 v1」)
 const ORDER_TEST = false;        // true 면 시트 「상태」에 「시험」으로 남음(시험 사본에서만 켬)
-const PAGE_VER = "20261020b";    // 시트 「페이지」 칸에 남는 이 페이지 판(20261019a = 분류 · 담은 부품 그림 · 코드 옆 수량, 20261014b = 처음부터 다시 담기 버튼, 20261014a = 레고®에 없는 부품 · 색 모아 보기 칩, 그 전 20261013b = 주문 id · 나눠 주문 · 실패 안내)
+const PAGE_VER = "20261021a";    // 시트 「페이지」 칸에 남는 이 페이지 판(20261019a = 분류 · 담은 부품 그림 · 코드 옆 수량, 20261014b = 처음부터 다시 담기 버튼, 20261014a = 레고®에 없는 부품 · 색 모아 보기 칩, 그 전 20261013b = 주문 id · 나눠 주문 · 실패 안내)
 const ORDER_WAIT = 15000;        // 코드 만들기 기다리는 시간(넘으면 실패로 보고 다시 누르게)
 // 스마트스토어 「고브릭 부품 주문」 상품의 최대 구매수량. 한 번에 결제할 수 있는 금액 = MAX_QTY × 결제 단위(D.unit) — 지금 99,999개 × 10원 = 999,990원.
 // 결제 금액이 이보다 크면 주문 코드를 만들지 않고 나눠 주문해 달라고 안내해요(스토어 최대 구매수량을 바꾸면 여기만 고치면 돼요).
@@ -1501,10 +1513,11 @@ if (going && !goneK.length) {   // 결제를 마친 주문은 할 일이 없으�
 // 주문 방법 안내 팝업(10/20 사장님 「주문시스템 가이드 자세히 만들어서 팝업으로 띄워서 공개」): 처음 열 때 한 번 자동으로 뜨고, 「주문 방법 보기」로 다시 열 수 있음
 (function () {
   const dlg = $("guide"); if (!dlg || !dlg.showModal) return;
-  const KEY = "gb_guide_seen";
-  const seen = () => { try { return localStorage.getItem(KEY) === "1"; } catch (e) { return false; } };
+  const KEY = "gb_guide_day";   // 「오늘 열지 않기」(사장님 10/21: 주문 주기가 길어서 다음에 또 보이게) — 체크한 날짜를 저장해 그날만 안 뜸
+  const today = () => { const d = new Date(); return d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate(); };
+  const seen = () => { try { return localStorage.getItem(KEY) === today(); } catch (e) { return false; } };
   const open = () => { try { dlg.showModal(); dlg.querySelector(".gb").scrollTop = 0; } catch (e) {} };
-  const close = () => { try { if ($("guideNo").checked) localStorage.setItem(KEY, "1"); } catch (e) {} dlg.close(); };
+  const close = () => { try { if ($("guideNo").checked) localStorage.setItem(KEY, today()); } catch (e) {} dlg.close(); };
   $("guideBtn").onclick = open; $("guideX").onclick = close; $("guideOk").onclick = close;
   dlg.addEventListener("click", e => { if (e.target === dlg) close(); });
   if (!seen() && !location.hash) setTimeout(open, 600);   // 주소 끝 #nolego 등으로 들어온 손님에게는 띄우지 않음
