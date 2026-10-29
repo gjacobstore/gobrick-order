@@ -133,6 +133,14 @@ button.clear{background:none;color:var(--sub);padding:4px 2px;font-size:13px;tex
 .line .u{color:#68717a}
 .line .qin{width:64px;font-size:13px;padding:2px 4px;margin:0 2px;border:1px solid var(--line);border-radius:6px;text-align:right}
 .sum .dsc{color:var(--ok)}
+.vold{box-sizing:border-box;max-width:1180px;margin:10px auto 0;padding:10px 12px;border:1px solid #f4c9a6;background:#fff6ee;border-radius:12px;font-size:13px;line-height:1.45;word-break:keep-all}
+.vold .vt{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.vold .vt b{color:#f26b21}
+.vold .vt button{background:none;border:0;padding:0;font-size:12px;color:var(--sub);text-decoration:underline;cursor:pointer;white-space:nowrap}
+.vold .vc{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:8px}
+.vold .vc>span{display:flex;flex-direction:column;align-items:center;padding:5px 2px;background:#fff;border:1px solid #f0d9c4;border-radius:8px;font-size:12px;color:var(--sub);white-space:nowrap}
+.vold .vc>span b{font-size:15px;color:#f26b21}
+.vold .vn{margin-top:6px;font-size:12px;color:var(--sub)}
 .ssd{margin-top:10px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#fffaf5}
 .ssd-h{font-size:13px;font-weight:700}
 .ssd-h small{font-weight:400;color:var(--sub);margin-left:6px;font-size:12px}
@@ -297,6 +305,7 @@ footer{max-width:1180px;margin:0 auto;padding:14px 16px 24px;border-top:1px soli
 <header>
   <div class="brand"><img src="gjacob_logo.png" alt="G제이콥스토어"><div><div class="store">구매부터 완성까지, G제이콥스토어</div><h1>고브릭(GOBRICKS) 부품 주문</h1></div></div>
   <p>레고® 호환 고브릭 부품을 골라 담아 주문해요. 받기까지 영업일 5~13일 걸려요. <button type="button" class="gl" id="guideBtn">주문 방법 보기</button></p>
+  <div id="volDisc" class="vold" hidden></div>
 </header>
 <nav class="flow" aria-label="주문 순서">
   <ol id="flow">
@@ -387,7 +396,7 @@ const PAY_URL = "https://smartstore.naver.com/g_jacob/products/13808325554";
 // 비어 있으면 「주문 코드 만들기」 버튼 대신 준비 중 안내. 주소는 배포 뒤 사장님이 주시면 넣어요.
 const ORDER_API = "https://script.google.com/macros/s/AKfycbwT17bmWcA865dbuopvqLJzUulgV8hPyAKZnHV3qHiYEG4NPU5o4n1sIIwhxky0LtFd/exec";   // 사장님 구글 시트 웹 앱(2026-10-14 배포, 「주문코드 v1」)
 const ORDER_TEST = false;        // true 면 시트 「상태」에 「시험」으로 남음(시험 사본에서만 켬)
-const PAGE_VER = "20261030a";    // 시트 「페이지」 칸에 남는 이 페이지 판(20261019a = 분류 · 담은 부품 그림 · 코드 옆 수량, 20261014b = 처음부터 다시 담기 버튼, 20261014a = 레고®에 없는 부품 · 색 모아 보기 칩, 그 전 20261013b = 주문 id · 나눠 주문 · 실패 안내)
+const PAGE_VER = "20261030b";    // 시트 「페이지」 칸에 남는 이 페이지 판(20261019a = 분류 · 담은 부품 그림 · 코드 옆 수량, 20261014b = 처음부터 다시 담기 버튼, 20261014a = 레고®에 없는 부품 · 색 모아 보기 칩, 그 전 20261013b = 주문 id · 나눠 주문 · 실패 안내)
 const ORDER_WAIT = 15000;        // 코드 만들기 기다리는 시간(넘으면 실패로 보고 다시 누르게)
 // 스마트스토어 「고브릭 부품 주문」 상품의 최대 구매수량. 한 번에 결제할 수 있는 금액 = MAX_QTY × 결제 단위(D.unit) — 지금 99,999개 × 10원 = 999,990원.
 // 결제 금액이 이보다 크면 주문 코드를 만들지 않고 나눠 주문해 달라고 안내해요(스토어 최대 구매수량을 바꾸면 여기만 고치면 돼요).
@@ -1552,6 +1561,15 @@ goneK.forEach(k => {
 let capped = 0; Object.keys(cart).forEach(k => { const mx = maxOf(k); if (!(ST && ST.paid) && cart[k] > mx) { cart[k] = mx; capped++; } });
 if (goneK.length || capped) save();
 $("minT").textContent = won(D.minOrder);
+// 맨 위 대량 구매 할인 띠(사장님 2026-10-30 기획 ②): 구간 4칸 + 쿠폰을 받아 두라는 안내. 「자세히」는 주문 방법 안내를 엶
+(function () {
+  const B = $("volDisc"); if (!B || !SSD.length) return;
+  const top = SSD[SSD.length - 1];
+  const vt = el("div", "vt", el("span", "", "많이 담을수록 할인 · 최대 ", el("b", "", top[1] + "%"), " 쿠폰"), btnEl("자세히", "", () => $("guideBtn").click()));
+  const vc = el("div", "vc"); SSD.forEach(([t, r]) => vc.append(el("span", "", nw((t % 10000 === 0 ? (t / 10000).toLocaleString() + "만원" : won(t)) + " 이상"), el("b", "", r + "%"))));
+  B.append(vt, vc, el("div", "vn", "쿠폰은 결제 전에 스마트스토어 상품 페이지에서 받아 두세요."));
+  B.hidden = false;
+})();
 if (picking()) search(); else render();   // 주소 끝(#nolego 등)으로 모아 보기를 켜고 들어왔으면 그 목록부터
 drawCart();
 const q0 = quote(), s0 = stage(q0), kept = q0.lines.length;
