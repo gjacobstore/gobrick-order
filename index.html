@@ -82,7 +82,8 @@ dialog.guide::backdrop{background:rgba(0,0,0,.45)}
 .guide .key{background:var(--acc2);border-radius:8px;padding:8px 10px;margin:6px 0;font-weight:700;color:var(--ink)}
 .guide .key{border:2px solid #EE5A24;font-size:15px;line-height:1.5;padding:10px 12px}
 .guide .key b{color:#EE5A24;font-size:18px}
-.guide svg.gi{width:100%;height:auto;display:block;margin:6px 0 4px}
+.guide svg.gi,.guide img.gi{width:100%;height:auto;display:block;margin:6px 0 4px}
+.guide img.gi{border:1px solid #e1dbd0;border-radius:10px}
 .guide .gcs{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
 .guide .gc{background:#f4f1ea;border-radius:999px;padding:3px 10px;font-size:12px;color:#444}
 .guide .gf{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 16px 14px;border-top:1px solid var(--line);background:#fff}
@@ -128,6 +129,20 @@ button.clear{background:none;color:var(--sub);padding:4px 2px;font-size:13px;tex
 .line:last-child{border-bottom:0}
 .line .rt{text-align:right}
 .line .u{color:#68717a}
+.line .qin{width:64px;font-size:13px;padding:2px 4px;margin:0 2px;border:1px solid var(--line);border-radius:6px;text-align:right}
+.sum .dsc{color:var(--ok)}
+.ssd{margin-top:10px;padding:10px 12px;border:1px solid var(--line);border-radius:10px;background:#fffaf5}
+.ssd-h{font-size:13px;font-weight:700}
+.ssd-h small{font-weight:400;color:var(--sub);margin-left:6px;font-size:12px}
+.ssd-l{list-style:none;margin:8px 0 6px;padding:0;display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.ssd-l li{display:flex;flex-direction:column;align-items:center;min-width:0;white-space:nowrap;padding:6px 2px;border:1px solid var(--line);border-radius:8px;font-size:12px;color:var(--sub);background:#fff}
+.ssd-l li b{font-size:15px;color:var(--sub)}
+.ssd-l li.on{border-color:#f26b21;background:#fff0e5;color:#222}
+.ssd-l li.on b{color:#f26b21}
+.ssd-n{font-size:12px;color:var(--sub)}
+.ssd-n b{color:#f26b21}
+.sum .dnote{margin-top:6px;font-size:12px;color:var(--sub)}
+.sum .dnote b{color:var(--ok)}
 .line .x{color:var(--sub);cursor:pointer;background:none;padding:0;font-size:13px}
 .sum{font-size:14px}
 .sum .r{display:flex;justify-content:space-between;align-items:baseline;gap:8px;padding:2px 0}
@@ -353,23 +368,7 @@ footer{max-width:1180px;margin:0 auto;padding:14px 16px 24px;border-top:1px soli
 <rect x="22" y="38" width="196" height="38" rx="8" fill="#f2f4f7"/><text x="120" y="62" font-size="14" font-weight="700" text-anchor="middle" font-family="ui-monospace,Consolas,monospace" fill="#2b2b2b">GB1020-001-20050</text>
 <rect x="226" y="38" width="72" height="38" rx="8" fill="#EE5A24"/><text x="262" y="62" font-size="14" font-weight="700" text-anchor="middle" fill="#fff">복사</text>
 <rect x="22" y="86" width="276" height="18" rx="9" fill="#fdeee6"/><text x="160" y="99" font-size="11" text-anchor="middle" fill="#EE5A24" font-weight="700">주문 코드 만들기 → 복사</text></svg></div></li>
-      <li><span class="gn">4</span><div><h3>스마트스토어에서 결제</h3><p><div class="key">① 수량 칸에 <b>주문 수량 그대로</b> 입력 → ② 코드 붙여 넣기 → 결제</div></p><svg class="gi" viewBox="0 0 320 220" role="img" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
-<rect x="8" y="8" width="304" height="204" rx="12" fill="#fff" stroke="#e1dbd0" stroke-width="1.5"/>
-<text x="22" y="30" font-size="13" font-weight="800" fill="#2b2b2b">고브릭 부품 주문</text>
-<text x="298" y="30" font-size="11" text-anchor="end" fill="#707070">스마트스토어</text>
-<line x1="22" y1="40" x2="298" y2="40" stroke="#e8e4dd"/>
-<text x="22" y="60" font-size="11" fill="#555">주문 코드</text>
-<rect x="22" y="66" width="276" height="26" rx="6" fill="#fff" stroke="#EE5A24" stroke-width="2.5"/>
-<text x="160" y="84" font-size="12" font-weight="700" text-anchor="middle" font-family="ui-monospace,Consolas,monospace" fill="#2b2b2b">GB1020-001-20050</text>
-<circle cx="14" cy="79" r="9" fill="#EE5A24"/><text x="14" y="83" font-size="11" font-weight="800" text-anchor="middle" fill="#fff">2</text>
-<text x="22" y="114" font-size="11" fill="#555">수량</text>
-<rect x="22" y="120" width="276" height="40" rx="8" fill="#fff" stroke="#EE5A24" stroke-width="3.5"/>
-<rect x="30" y="126" width="28" height="28" rx="6" fill="#f4f1ea"/><text x="44" y="146" font-size="16" text-anchor="middle" fill="#555">−</text>
-<text x="160" y="149" font-size="22" font-weight="900" text-anchor="middle" fill="#EE5A24">2,005</text>
-<rect x="262" y="126" width="28" height="28" rx="6" fill="#f4f1ea"/><text x="276" y="146" font-size="16" text-anchor="middle" fill="#555">+</text>
-<circle cx="14" cy="140" r="9" fill="#EE5A24"/><text x="14" y="144" font-size="11" font-weight="800" text-anchor="middle" fill="#fff">1</text>
-<text x="22" y="182" font-size="11" fill="#555">총 결제 금액</text><text x="298" y="183" font-size="14" font-weight="800" text-anchor="end" fill="#2b2b2b">20,050원</text>
-<rect x="22" y="190" width="276" height="16" rx="8" fill="#2b2b2b"/><text x="160" y="202" font-size="11" font-weight="700" text-anchor="middle" fill="#fff">구매하기</text></svg></div></li>
+      <li><span class="gn">4</span><div><h3>스마트스토어에서 결제</h3><p><div class="key">① 수량 칸에 <b>주문 수량 그대로</b> 입력 → ② 코드 붙여 넣기 → 결제</div></p><img class="gi" src="smartstore_order.png" width="677" height="316" alt="스마트스토어 결제 화면: 주문코드(필수) 입력 칸과 구매하기 버튼" loading="lazy"></div></li>
     </ol>
   </div>
   <div class="gf"><label><input type="checkbox" id="guideNo"> 오늘 열지 않기</label><button type="button" class="ok" id="guideOk">확인</button></div>
@@ -384,7 +383,7 @@ const PAY_URL = "https://smartstore.naver.com/g_jacob/products/13808325554";
 // 비어 있으면 「주문 코드 만들기」 버튼 대신 준비 중 안내. 주소는 배포 뒤 사장님이 주시면 넣어요.
 const ORDER_API = "https://script.google.com/macros/s/AKfycbwT17bmWcA865dbuopvqLJzUulgV8hPyAKZnHV3qHiYEG4NPU5o4n1sIIwhxky0LtFd/exec";   // 사장님 구글 시트 웹 앱(2026-10-14 배포, 「주문코드 v1」)
 const ORDER_TEST = false;        // true 면 시트 「상태」에 「시험」으로 남음(시험 사본에서만 켬)
-const PAGE_VER = "20261023a";    // 시트 「페이지」 칸에 남는 이 페이지 판(20261019a = 분류 · 담은 부품 그림 · 코드 옆 수량, 20261014b = 처음부터 다시 담기 버튼, 20261014a = 레고®에 없는 부품 · 색 모아 보기 칩, 그 전 20261013b = 주문 id · 나눠 주문 · 실패 안내)
+const PAGE_VER = "20261029f";    // 시트 「페이지」 칸에 남는 이 페이지 판(20261019a = 분류 · 담은 부품 그림 · 코드 옆 수량, 20261014b = 처음부터 다시 담기 버튼, 20261014a = 레고®에 없는 부품 · 색 모아 보기 칩, 그 전 20261013b = 주문 id · 나눠 주문 · 실패 안내)
 const ORDER_WAIT = 15000;        // 코드 만들기 기다리는 시간(넘으면 실패로 보고 다시 누르게)
 // 스마트스토어 「고브릭 부품 주문」 상품의 최대 구매수량. 한 번에 결제할 수 있는 금액 = MAX_QTY × 결제 단위(D.unit) — 지금 99,999개 × 10원 = 999,990원.
 // 결제 금액이 이보다 크면 주문 코드를 만들지 않고 나눠 주문해 달라고 안내해요(스토어 최대 구매수량을 바꾸면 여기만 고치면 돼요).
@@ -643,7 +642,7 @@ function render() {
       img.src = IMG(p.p, o[0]);
       const sw = c ? `<span class="sw" style="background:${c[2]}"></span>` : "";
       if (!o[2]) { pr.innerHTML = sw + "지금 주문 안 돼요"; pr.className = "price na"; btn.disabled = true; return; }
-      const cmp = o[3] ? ` <span class="cmp">· 레고 순정 ${wonH(o[3])}</span>` : "";
+      const cmp = o[3] && o[3] > o[1] ? ` <span class="cmp">· 레고 순정 ${wonH(o[3])}</span>` : "";
       const ctg = NOLEGO_C.includes(o[0]) ? ' <span class="tg">지금 레고®에 없는 색</span>' : "";   // 고른 색이 카키 · 연노랑이면
       const mx = o[4] || 5000; pr.innerHTML = sw + `개당 ${wonH(o[1])}` + cmp + ctg + ` <span class="mx${mx < 1000 ? " low" : ""}">· 최대 ${mx.toLocaleString()}개</span>`; pr.className = "price"; btn.disabled = false; qty.max = mx;
     };
@@ -686,6 +685,28 @@ function render() {
 const SHIP_STEP = Array.isArray(D.shipStep) && D.shipStep[0] > 0 ? D.shipStep : [500, 500];
 const shipFee = pcs => pcs > 0 ? D.ship + SHIP_STEP[1] * Math.floor((pcs - 1) / SHIP_STEP[0]) : 0;
 const SHIP_RULE = `${SHIP_STEP[0].toLocaleString()}개까지 ${won(D.ship)}, ${SHIP_STEP[0].toLocaleString()}개마다 +${won(SHIP_STEP[1])}`;
+// 부품값 구간 할인(사장님 2026-10-29 「10·30·50·100만원 구간」): 부품값 합계(배송비 빼고)가 구간 이상이면 그 % 만큼 빼고, 뺀 값(goods)에 배송비를 더해 결제 금액을 만듦
+// 구간은 parts.js D.disc = [[부품값, %], …] (설정.json 「구간할인」). 할인액은 10원 아래로 버림(order_code.py 와 같은 식 — 바꿀 때 같이)
+const DISC = (Array.isArray(D.disc) ? D.disc : []).map(a => [Number(a[0]), Number(a[1])]).filter(a => a[0] > 0 && a[1] > 0).sort((a, b) => a[0] - b[0]);
+function discOf(gross) {
+  let pct = 0; for (const [t, r] of DISC) if (gross >= t) pct = r;
+  const next = DISC.find(([t]) => gross < t) || null;
+  return { pct, amt: Math.floor(Math.floor(gross * pct / 100) / 10) * 10, next };
+}
+// 스마트스토어 구간별 할인 안내(사장님 2026-10-29 「할인은 스마트스토어에 적용 · 장바구니 코드 생성쪽에 구간별 할인내용」): 주문 시스템은 금액을 빼지 않고 안내만 함
+// 구간은 parts.js D.ssDisc = [[결제 금액, %], …](설정.json 「스마트스토어_구간할인」). 스마트스토어가 보는 금액은 결제 금액(= 코드 금액)이라 그 금액으로 구간을 판단
+const SSD = (Array.isArray(D.ssDisc) ? D.ssDisc : []).map(a => [Number(a[0]), Number(a[1])]).filter(a => a[0] > 0 && a[1] > 0).sort((a, b) => a[0] - b[0]);
+function ssdBox(total, ended) {
+  if (!SSD.length) return null;
+  let on = -1; SSD.forEach(([t], i) => { if (total >= t) on = i; });
+  const ul = document.createElement("ul"); ul.className = "ssd-l";
+  SSD.forEach(([t, r], i) => ul.append(el("li", i === on ? "on" : "", el("span", "", nw((t % 10000 === 0 ? (t / 10000).toLocaleString() + "만원" : won(t)) + " 이상")), el("b", "", r + "%"))));
+  const nxt = SSD[on + 1];
+  const note = ended ? (on >= 0 ? "스마트스토어 결제 때 " + SSD[on][1] + "% 할인이 적용돼요." : "")
+    : on < 0 ? [nw(won(SSD[0][0] - total)), " 더 담으면 ", el("b", "", SSD[0][1] + "% 할인")]
+    : nxt ? ["지금 ", el("b", "", SSD[on][1] + "% 할인", " 구간"), "이에요. ", nw(won(nxt[0] - total)), " 더 담으면 ", el("b", "", nxt[1] + "%")] : [el("b", "", SSD[on][1] + "% 할인"), " 구간이에요(가장 큰 구간)."];
+  return el("div", "ssd", el("div", "ssd-h", "구간별 할인", el("small", "", "스마트스토어에서 결제할 때 적용돼요")), ul, el("div", "ssd-n", note));
+}
 function quote() {
   let goods = 0, pcs = 0, lego = 0, legoOurs = 0, legoLines = 0; const lines = [];
   for (const [k, n] of Object.entries(cart)) {
@@ -693,9 +714,10 @@ function quote() {
     goods += m.o[1] * n; pcs += n; lines.push([k, n]);
     if (m.o[3]) { lego += m.o[3] * n; legoOurs += m.o[1] * n; legoLines++; }  // 정품 가격이 있는 줄만 비교
   }
+  const gross = goods, dc = discOf(gross); goods = gross - dc.amt;   // goods = 할인 뒤 부품값(시트 「부품값」 칸 · 결제 금액 계산에 쓰는 값)
   const ship = lines.length ? shipFee(pcs) : 0;
   const total = Math.ceil((goods + ship) / D.unit) * D.unit;
-  return { goods, pcs, ship, total, lines, qty: total / D.unit, lego, legoOurs, legoLines };
+  return { goods, gross, disc: dc.amt, rate: dc.pct, next: dc.next, pcs, ship, total, lines, qty: total / D.unit, lego, legoOurs, legoLines };
 }
 
 // ───── 주문 3단계 ─────
@@ -774,6 +796,8 @@ function codeFor(q) {
 //   · 같은 주문(같은 oid + 같은 내역)을 다시 보내면 시트가 앞서 준 코드를 그대로 돌려줘서(6시간) 다시 눌러도 번호가 늘지 않음
 //   · 기다리는 사이 장바구니·가격 기준이 바뀌면 받은 코드는 버림(② 그대로 — 다시 누르면 지금 장바구니로)
 //   · 다시 눌러도 안 되는 오류(STOP_ERR — 내역·금액·한도·시트 문제)는 「다시 눌러 주세요」 대신 톡톡 안내, 버튼 없음
+let autoMake = false;   // 코드를 만든 뒤 수량을 고쳐 새 코드를 바로 만들어야 함(drawCart 끝에서 한 번)
+let recode = false;   // 코드를 만든 뒤 담은 부품이 바뀌어 새 코드가 필요함(② 안내 문구용)
 let making = null;   // {sig} 코드를 만드는 중
 let makeErr = { sig: "", n: 0, stop: false };   // 실패한 장바구니(sig) · 같은 장바구니에서 이어 실패한 횟수 · 다시 눌러도 안 되는 오류인지
 const STOP_ERR = ["size", "json", "version", "payload", "checksum", "oid", "total", "qty", "lines", "code", "limit", "sheet"];
@@ -785,7 +809,7 @@ async function makeCode() {
   const sig = sigOf(q.lines), payload = codeFor(q), fromMk = !!(document.activeElement && document.activeElement.id === "mk");
   const lines = q.lines.map(([k, n]) => [k, n, byKey[k].o[1]]);
   making = { sig }; drawCart();
-  const body = JSON.stringify({ v: 1, payload, oid: orderId(), total: q.total, qty: q.qty, goods: q.goods, ship: q.ship, pcs: q.pcs, lines: q.lines.length,
+  const body = JSON.stringify({ v: 1, payload, oid: orderId(), total: q.total, qty: q.qty, goods: q.goods, gross: q.gross, disc: q.disc, ship: q.ship, pcs: q.pcs, lines: q.lines.length,
     built: D.built.replace(/\D/g, "").slice(2), list: q.lines.map(([k, n]) => k + "x" + n).join(", "), page: PAGE_VER, test: ORDER_TEST });
   const ctl = "AbortController" in window ? new AbortController() : null;
   let tm = 0, res = null;
@@ -804,8 +828,8 @@ async function makeCode() {
     makeErr = { sig, n: makeErr.sig === sig ? makeErr.n + 1 : 1, stop: !!(res && res.ok === false && STOP_ERR.includes(res.error)) };
     drawCart(); return;
   }
-  makeErr = { sig: "", n: 0, stop: false };
-  ST = { code: res.code, payload, cartSig: sig, lines, goods: q.goods, pcs: q.pcs, ship: q.ship, total: q.total, qty: q.qty,
+  makeErr = { sig: "", n: 0, stop: false }; recode = false;
+  ST = { code: res.code, payload, cartSig: sig, lines, goods: q.goods, gross: q.gross, disc: q.disc, rate: q.rate, pcs: q.pcs, ship: q.ship, total: q.total, qty: q.qty,
     paid: false, went: false, at: Date.now(), created: typeof res.created === "string" ? res.created.slice(0, 40) : "" };
   saveST(); drawCart();
   if (fromMk && $("cp")) $("cp").focus({ preventScroll: true });   // 키보드로 눌렀으면 바로 옆 [복사]로
@@ -861,6 +885,19 @@ function drawFlow(s) {
     if (n === s) li.setAttribute("aria-current", "step"); else li.removeAttribute("aria-current");
   });
 }
+// 장바구니 줄의 수량 칸(사장님 2026-10-29): 숫자를 고치고 Enter 나 다른 곳을 누르면 반영(옵션 최대 수량까지, 0 이면 그 줄 삭제)
+function qtyBox(k, n) {
+  const i = document.createElement("input"); i.type = "number"; i.className = "qin"; i.min = "0"; i.max = String(maxOf(k)); i.value = String(n); i.inputMode = "numeric";
+  i.setAttribute("aria-label", "수량 고치기");
+  i.onchange = () => {
+    let v = Math.max(0, parseInt(i.value, 10) || 0); v = Math.min(v, maxOf(k));
+    if (v === (cart[k] || 0)) { i.value = String(cart[k] || 0); return; }
+    if (v === 0) delete cart[k]; else cart[k] = v;
+    save(); drawCart();
+  };
+  i.onkeydown = e => { if (e.key === "Enter") { e.preventDefault(); i.blur(); } };
+  const w = el("span", "qb2", i, "개"); return w;
+}
 function drawLines(s, q) {
   const L = $("lines"); L.textContent = "";
   const list = s === 4 ? ST.lines : q.lines.map(([k, n]) => [k, n, byKey[k].o[1]]);
@@ -869,7 +906,7 @@ function drawLines(s, q) {
     const m = byKey[k], i = k.lastIndexOf("-"), c = k.slice(i + 1);
     const th = document.createElement("img"); th.alt = ""; th.loading = "lazy"; th.src = IMG(k.slice(0, i), c);   // 10/19 사장님 「담은 부품에 브릭 이미지」
     const left = el("div", "lt", th, el("div", "", el("b", "", m ? pName(m.p) : "GDS-" + k.slice(0, i)), el("br"), cName(c), el("br"),
-      el("span", "u", nw(won(u)), " × ", nw(n.toLocaleString() + "개"))));
+      el("span", "u", nw(won(u)), " × ", s === 4 ? nw(n.toLocaleString() + "개") : qtyBox(k, n))));
     const right = el("div", "rt", nw(won(u * n)));
     if (s !== 4) { const x = btnEl("삭제", "x", () => { delete cart[k]; save(); drawCart(); }); right.append(el("br"), x); }
     L.append(el("div", "line", left, right));
@@ -883,16 +920,24 @@ function drawSum(s, q) {
   const v = s === 4 ? ST : q;
   if (s !== 4 && !q.lines.length) return;
   const row = (cls, a, b) => el("div", "r" + (cls ? " " + cls : ""), a, b);
+  const gross = v.gross || v.goods, dsc = v.disc || 0;
+  S.append(row("", el("span", "", "부품 " + v.pcs.toLocaleString() + "개"), nw(won(gross))));
+  if (dsc > 0) S.append(row("dsc", el("span", "", "구간 할인 " + v.rate + "%", el("small", "", "부품값 " + DISC.find(a => a[1] === v.rate)[0].toLocaleString() + "원 이상")), nw("−" + won(dsc))));
   S.append(
-    row("", el("span", "", "부품 " + v.pcs.toLocaleString() + "개"), nw(won(v.goods))),
     row("", el("span", "", "배송비", el("small", "", SHIP_RULE)), nw(won(v.ship))),
     row("tot", el("span", "", "결제 금액"), nw(won(v.total))));
+  const ssd = ssdBox(v.total, s === 4); if (ssd) S.append(ssd);
+  if (s !== 4 && DISC.length) {   // 다음 구간까지 남은 금액(담는 중에만) · 맨 위 구간이면 알림만
+    const dc = discOf(gross);
+    S.append(el("div", "dnote", dc.next ? [nw(won(dc.next[0] - gross)), " 더 담으면 ", el("b", "", dc.next[1] + "% 할인"), "(부품값 " + dc.next[0].toLocaleString() + "원 이상)"] : "가장 큰 구간 할인이 적용돼 있어요."));
+  }
   // 10/13 부품 1개 값이 10원 단위(사장님 「부품금액을 개당 10원단위로 올림해줘」)라 결제 금액은 부품값 + 배송비 그대로 —
   // 올림이 실제로 생겼을 때만(옛 가격 자료 등) 안내를 보인다
   if (v.total !== v.goods + v.ship) S.append(el("div", "unit", won(D.unit) + " 단위로 올려 계산해요."));
 }
 function drawSave(s, q) {
   const B = $("save"); B.textContent = "";
+  return;   // 사장님 2026-10-29 「레고® 정품으로 샀다면 … 아껴요」 박스 뺌(우리가 정품보다 비싼 부품도 있어서)
   if (s === 4 || !q.legoLines || q.lego <= q.legoOurs) return;
   B.append(el("div", "save",
     "레고® 정품으로 샀다면 ", el("b", "", nw(won(q.lego))), "이에요.", el("br"),
@@ -947,7 +992,7 @@ function drawAct(s, q) {
     if (fe) {
       const f = el("div", "aline warn", nw("코드를 만들지 못했어요."), " ", nw("잠시 뒤 다시 눌러 주세요.")); f.id = "mkErr"; f.setAttribute("role", "alert"); A.append(f);
       if (fe.n >= 2) { const t = el("div", "aline sub", "계속 안 되면 네이버 톡톡으로 알려 주세요."); t.id = "mkTalk"; A.append(t); }   // 두 번째 실패부터
-    } else A.append(el("div", "aline", busy ? "주문 코드를 만들고 있어요" : "다 담으셨으면 주문 코드를 만들어 주세요"));
+    } else A.append(el("div", "aline", busy ? "주문 코드를 만들고 있어요" : recode ? "담은 부품이 바뀌었어요. 주문 코드를 다시 만들어 주세요" : "다 담으셨으면 주문 코드를 만들어 주세요"));
     const b = btnEl(busy ? "만드는 중…" : "주문 코드 만들기", "big", () => makeCode()); b.id = "mk";
     if (busy) { b.disabled = true; b.setAttribute("aria-busy", "true"); }
     A.append(b);
@@ -961,13 +1006,13 @@ function drawAct(s, q) {
       el("div", "n", el("b", "", nw(won(ST.total))), " ", nw("결제해 주세요")),   // 좁은 화면에서는 금액 / 「결제해 주세요」 두 줄로
       el("div", "k qs", "결제할 때 ", nw("주문 수량을"), " ", el("b", "", nw(ST.qty.toLocaleString() + "개로")), " ", nw("설정해 주세요"))));   // 10/19 사장님 「결제시 주문수량을 000개로 설정」 강조톤
     A.append(el("div", "aline paste", "결제할 때 ", el("b", "", "주문 코드"), " 칸에 붙여 넣어 주세요"));
-    const paid = btnEl("결제했어요", went ? "big" : "small", markPaid); paid.id = "paid";
+    // 사장님 2026-10-29 「결제했어요 빼」: 결제했어요 버튼은 없음(주문은 스마트스토어 결제로 접수). 새 주문은 「처음부터 다시 담기」
     if (PAY_URL) {
-      const go = el("a", went ? "small" : copied ? "big" : "big ghost", "결제하러 가기"); go.id = "payGo";
+      const go = el("a", went || copied ? "big" : "big ghost", "결제하러 가기"); go.id = "payGo";
       go.href = PAY_URL; go.target = "_blank"; go.rel = "noopener";
       go.onclick = () => { if (!isCopied()) copyCode(); markWent(); };
-      if (went) A.append(paid, go); else A.append(go, paid);
-    } else A.append(paid);
+      A.append(go);
+    }
   } else {
     // 끝: 「결제했어요」 뒤 — 할 일은 없고, 결제한 금액(수량)과 새 주문만
     // 10/13 사장님 「G제이콥스토어에서 주문을 넣는거야」
@@ -1035,8 +1080,7 @@ function drawBar(s, q) {
     else if (makeErr.sig === sigOf(q.lines)) { t1 = "코드를 만들지 못했어요"; t2 = makeErr.n >= 2 ? "안 되면 톡톡으로 알려 주세요" : "잠시 뒤 다시 눌러 주세요"; cls = "need"; }
   } else if (s === 3) {   // 먼저 [주문 코드 복사] → 복사한 뒤 [결제하러 가기](주소 없으면 [결제 안내]) → 다녀오면 [결제했어요]
     t1 = [nw(won(ST.total)), " 결제해 주세요"]; t2 = [nw("수량 " + ST.qty.toLocaleString() + "개로"), " 넣어 주세요"];
-    if (PAY_URL && ST.went) { t1 = "결제를 마치셨나요?"; t2 = [nw(won(ST.total)), " · ", nw("수량 " + ST.qty.toLocaleString() + "개")]; label = "결제했어요"; fn = markPaid; }
-    else if (!isCopied()) { label = "주문 코드 복사"; fn = barCopy; }
+    if (!isCopied()) { label = "주문 코드 복사"; fn = barCopy; }
     else { t1 = [nw(won(ST.total)), " · ", nw("수량 " + ST.qty.toLocaleString() + "개")]; t2 = "주문 코드 칸에 붙여 넣어 주세요"; label = PAY_URL ? "결제하러 가기" : "결제 안내"; fn = PAY_URL ? goPay : toCart; }
   } else {
     t1 = "결제했어요"; t2 = [nw(won(ST.total)), " · ", nw("수량 " + ST.qty.toLocaleString() + "개")];
@@ -1056,14 +1100,23 @@ function fitBar() {
 function drawCart() {
   const q = quote();
   refreshST(q);
+  // 사장님 2026-10-29 「주문코드 후에 수량이 변경되면 주문코드 다시 만들게」: 결제하러 가기 전의 코드는 담은 부품이 바뀌면 버리고 ② 에서 새로 만들게 함
+  // (결제하러 가기를 눌렀으면 이미 결제했을 수 있어서 기존처럼 「앞서 만든 코드로 결제하셨나요?」를 먼저 물음)
+  if (ST && !ST.paid && staleWhy(q)) { ST = null; saveST(); recode = true; autoMake = true; }
   // 결제 전 코드는 손님이 「결제했어요 / 아직이에요」로 답하기 전에는 지우지 않음(다 빼거나 비워도 먼저 물음)
   const s = stage(q);
+  if (s === 1 || s === 4) recode = false;
   drawFlow(s); drawSum(s, q); drawAct(s, q); watchAct(); drawLines(s, q); drawSave(s, q);
   $("cartH").textContent = s === 4 ? "결제한 부품" : "담은 부품";
   $("after").hidden = s < 3;
   $("clr").hidden = s === 4 || !q.lines.length;
   if (s < 4 && !q.lines.length) $("back").style.display = "none";
   drawBar(s, q);
+  // 사장님 2026-10-29 「수정하면 코드 재생성」: 결제하러 가기 전의 코드가 있었는데 담은 부품 · 수량을 고쳤으면 새 주문 코드를 바로 만듦(만들 수 없는 장바구니면 ② 의 버튼 · 안내 그대로)
+  if (autoMake) {
+    autoMake = false;
+    if (s === 2 && ORDER_API && !making && q.lines.length && q.goods >= D.minOrder && q.total <= MAX_PAY && !tooBig(q) && !staleWhy(q)) makeCode();
+  }
 }
 // ───── 목록으로 한 번에 담기 ─────
 // 양식(엑셀)을 받아 부품번호·색·수량을 적어 올리면, 있는 것과 없는 것을 나눠 먼저 보여 주고 손님이 고르면 장바구니(cart)에 담음.
