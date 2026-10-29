@@ -82,6 +82,8 @@ dialog.guide::backdrop{background:rgba(0,0,0,.45)}
 .guide .key{background:var(--acc2);border-radius:8px;padding:8px 10px;margin:6px 0;font-weight:700;color:var(--ink)}
 .guide .key{border:2px solid #EE5A24;font-size:15px;line-height:1.5;padding:10px 12px}
 .guide .key b{color:#EE5A24;font-size:18px}
+.guide .cpn-note{margin-top:6px;font-size:12.5px;color:var(--sub)}
+.guide .cpn-note b{color:#f26b21}
 .guide svg.gi,.guide img.gi{width:100%;height:auto;display:block;margin:6px 0 4px}
 .guide img.gi{border:1px solid #e1dbd0;border-radius:10px}
 .guide .gcs{display:flex;flex-wrap:wrap;gap:6px;margin-top:4px}
@@ -141,6 +143,8 @@ button.clear{background:none;color:var(--sub);padding:4px 2px;font-size:13px;tex
 .ssd-l li.on b{color:#f26b21}
 .ssd-n{font-size:12px;color:var(--sub)}
 .ssd-n b{color:#f26b21}
+.aline.cpn{background:#fff0e5;border-radius:10px;padding:8px 10px;font-size:13px}
+.aline.cpn b{color:#f26b21}
 .sum .dnote{margin-top:6px;font-size:12px;color:var(--sub)}
 .sum .dnote b{color:var(--ok)}
 .line .x{color:var(--sub);cursor:pointer;background:none;padding:0;font-size:13px}
@@ -368,7 +372,7 @@ footer{max-width:1180px;margin:0 auto;padding:14px 16px 24px;border-top:1px soli
 <rect x="22" y="38" width="196" height="38" rx="8" fill="#f2f4f7"/><text x="120" y="62" font-size="14" font-weight="700" text-anchor="middle" font-family="ui-monospace,Consolas,monospace" fill="#2b2b2b">GB1020-001-20050</text>
 <rect x="226" y="38" width="72" height="38" rx="8" fill="#EE5A24"/><text x="262" y="62" font-size="14" font-weight="700" text-anchor="middle" fill="#fff">복사</text>
 <rect x="22" y="86" width="276" height="18" rx="9" fill="#fdeee6"/><text x="160" y="99" font-size="11" text-anchor="middle" fill="#EE5A24" font-weight="700">주문 코드 만들기 → 복사</text></svg></div></li>
-      <li><span class="gn">4</span><div><h3>스마트스토어에서 결제</h3><p><div class="key">① 수량 칸에 <b>주문 수량 그대로</b> 입력 → ② 코드 붙여 넣기 → 결제</div></p><img class="gi" src="smartstore_order.png" width="677" height="316" alt="스마트스토어 결제 화면: 주문코드(필수) 입력 칸과 구매하기 버튼"></div></li>
+      <li><span class="gn">4</span><div><h3>스마트스토어에서 결제</h3><p><div class="key">① 수량 칸에 <b>주문 수량 그대로</b> 입력 → ② 코드 붙여 넣기 → 결제</div><div class="cpn-note">10만원 이상이면 스마트스토어 상품 페이지에서 <b>구간 할인 쿠폰</b>을 받아 두고, 결제할 때 골라 주세요.</div></p><img class="gi" src="smartstore_order.png" width="677" height="316" alt="스마트스토어 결제 화면: 주문코드(필수) 입력 칸과 구매하기 버튼"></div></li>
     </ol>
   </div>
   <div class="gf"><label><input type="checkbox" id="guideNo"> 오늘 열지 않기</label><button type="button" class="ok" id="guideOk">확인</button></div>
@@ -383,7 +387,7 @@ const PAY_URL = "https://smartstore.naver.com/g_jacob/products/13808325554";
 // 비어 있으면 「주문 코드 만들기」 버튼 대신 준비 중 안내. 주소는 배포 뒤 사장님이 주시면 넣어요.
 const ORDER_API = "https://script.google.com/macros/s/AKfycbwT17bmWcA865dbuopvqLJzUulgV8hPyAKZnHV3qHiYEG4NPU5o4n1sIIwhxky0LtFd/exec";   // 사장님 구글 시트 웹 앱(2026-10-14 배포, 「주문코드 v1」)
 const ORDER_TEST = false;        // true 면 시트 「상태」에 「시험」으로 남음(시험 사본에서만 켬)
-const PAGE_VER = "20261029g";    // 시트 「페이지」 칸에 남는 이 페이지 판(20261019a = 분류 · 담은 부품 그림 · 코드 옆 수량, 20261014b = 처음부터 다시 담기 버튼, 20261014a = 레고®에 없는 부품 · 색 모아 보기 칩, 그 전 20261013b = 주문 id · 나눠 주문 · 실패 안내)
+const PAGE_VER = "20261030a";    // 시트 「페이지」 칸에 남는 이 페이지 판(20261019a = 분류 · 담은 부품 그림 · 코드 옆 수량, 20261014b = 처음부터 다시 담기 버튼, 20261014a = 레고®에 없는 부품 · 색 모아 보기 칩, 그 전 20261013b = 주문 id · 나눠 주문 · 실패 안내)
 const ORDER_WAIT = 15000;        // 코드 만들기 기다리는 시간(넘으면 실패로 보고 다시 누르게)
 // 스마트스토어 「고브릭 부품 주문」 상품의 최대 구매수량. 한 번에 결제할 수 있는 금액 = MAX_QTY × 결제 단위(D.unit) — 지금 99,999개 × 10원 = 999,990원.
 // 결제 금액이 이보다 크면 주문 코드를 만들지 않고 나눠 주문해 달라고 안내해요(스토어 최대 구매수량을 바꾸면 여기만 고치면 돼요).
@@ -695,17 +699,23 @@ function discOf(gross) {
 }
 // 스마트스토어 구간별 할인 안내(사장님 2026-10-29 「할인은 스마트스토어에 적용 · 장바구니 코드 생성쪽에 구간별 할인내용」): 주문 시스템은 금액을 빼지 않고 안내만 함
 // 구간은 parts.js D.ssDisc = [[결제 금액, %], …](설정.json 「스마트스토어_구간할인」). 스마트스토어가 보는 금액은 결제 금액(= 코드 금액)이라 그 금액으로 구간을 판단
-const SSD = (Array.isArray(D.ssDisc) ? D.ssDisc : []).map(a => [Number(a[0]), Number(a[1])]).filter(a => a[0] > 0 && a[1] > 0).sort((a, b) => a[0] - b[0]);
+const SSD = (Array.isArray(D.ssDisc) ? D.ssDisc : []).map(a => [Number(a[0]), Number(a[1]), String(a[2] || (a[1] + "% 할인 쿠폰"))]).filter(a => a[0] > 0 && a[1] > 0).sort((a, b) => a[0] - b[0]);
+// 결제 금액(코드 금액)으로 받을 수 있는 가장 큰 구간 쿠폰과 약 할인액(쿠폰은 스마트스토어가 계산 — 원 단위는 달라질 수 있어 「약」으로 보여 줌)
+function couponFor(total) {
+  let c = null; for (const t of SSD) if (total >= t[0]) c = t;
+  return c ? { pct: c[1], name: c[2], amt: Math.floor(total * c[1] / 100) } : null;
+}
 function ssdBox(total, ended) {
   if (!SSD.length) return null;
   let on = -1; SSD.forEach(([t], i) => { if (total >= t) on = i; });
   const ul = document.createElement("ul"); ul.className = "ssd-l";
   SSD.forEach(([t, r], i) => ul.append(el("li", i === on ? "on" : "", el("span", "", nw((t % 10000 === 0 ? (t / 10000).toLocaleString() + "만원" : won(t)) + " 이상")), el("b", "", r + "%"))));
   const nxt = SSD[on + 1];
-  const note = ended ? (on >= 0 ? "스마트스토어 결제 때 " + SSD[on][1] + "% 할인이 적용돼요." : "")
-    : on < 0 ? [nw(won(SSD[0][0] - total)), " 더 담으면 ", el("b", "", SSD[0][1] + "% 할인")]
-    : nxt ? ["지금 ", el("b", "", SSD[on][1] + "% 할인", " 구간"), "이에요. ", nw(won(nxt[0] - total)), " 더 담으면 ", el("b", "", nxt[1] + "%")] : [el("b", "", SSD[on][1] + "% 할인"), " 구간이에요(가장 큰 구간)."];
-  return el("div", "ssd", el("div", "ssd-h", "구간별 할인", el("small", "", "스마트스토어에서 결제할 때 적용돼요")), ul, el("div", "ssd-n", note));
+  const cpn = on >= 0 ? el("b", "", "「" + SSD[on][2] + "」") : null;
+  const note = ended ? (on >= 0 ? ["결제할 때 ", cpn, "을 골랐다면 ", SSD[on][1] + "% 할인이 적용돼요."] : "")
+    : on < 0 ? [nw(won(SSD[0][0] - total)), " 더 담으면 ", el("b", "", SSD[0][1] + "% 할인"), " 쿠폰을 쓸 수 있어요"]
+    : nxt ? ["결제할 때 ", cpn, "을 골라 주세요. ", nw(won(nxt[0] - total)), " 더 담으면 ", el("b", "", nxt[1] + "%"), " 쿠폰"] : ["결제할 때 ", cpn, "을 골라 주세요(가장 큰 구간)."];
+  return el("div", "ssd", el("div", "ssd-h", "구간별 할인", el("small", "", "쿠폰을 받아 결제할 때 골라 주세요")), ul, el("div", "ssd-n", note));
 }
 function quote() {
   let goods = 0, pcs = 0, lego = 0, legoOurs = 0, legoLines = 0; const lines = [];
@@ -1006,6 +1016,8 @@ function drawAct(s, q) {
       el("div", "n", el("b", "", nw(won(ST.total))), " ", nw("결제해 주세요")),   // 좁은 화면에서는 금액 / 「결제해 주세요」 두 줄로
       el("div", "k qs", "결제할 때 ", nw("주문 수량을"), " ", el("b", "", nw(ST.qty.toLocaleString() + "개로")), " ", nw("설정해 주세요"))));   // 10/19 사장님 「결제시 주문수량을 000개로 설정」 강조톤
     A.append(el("div", "aline paste", "결제할 때 ", el("b", "", "주문 코드"), " 칸에 붙여 넣어 주세요"));
+    const cp = couponFor(ST.total);   // 사장님 2026-10-29 「쿠폰으로 할 거야」: 받을 수 있는 구간 쿠폰이 있으면 결제 화면에서 고르게 안내
+    if (cp) A.append(el("div", "aline cpn", "결제 화면에서 쿠폰 ", el("b", "", "「" + cp.name + "」"), "을 골라 주세요", el("br"), nw("약 " + won(ST.total - cp.amt) + " 결제돼요"), " ", nw("(쿠폰 약 −" + won(cp.amt) + ")")));
     // 사장님 2026-10-29 「결제했어요 빼」: 결제했어요 버튼은 없음(주문은 스마트스토어 결제로 접수). 새 주문은 「처음부터 다시 담기」
     if (PAY_URL) {
       const go = el("a", went || copied ? "big" : "big ghost", "결제하러 가기"); go.id = "payGo";
