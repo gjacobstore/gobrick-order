@@ -396,7 +396,7 @@ const PAY_URL = "https://smartstore.naver.com/g_jacob/products/13808325554";
 // 비어 있으면 「주문 코드 만들기」 버튼 대신 준비 중 안내. 주소는 배포 뒤 사장님이 주시면 넣어요.
 const ORDER_API = "https://script.google.com/macros/s/AKfycbwT17bmWcA865dbuopvqLJzUulgV8hPyAKZnHV3qHiYEG4NPU5o4n1sIIwhxky0LtFd/exec";   // 사장님 구글 시트 웹 앱(2026-10-14 배포, 「주문코드 v1」)
 const ORDER_TEST = false;        // true 면 시트 「상태」에 「시험」으로 남음(시험 사본에서만 켬)
-const PAGE_VER = "20261030b";    // 시트 「페이지」 칸에 남는 이 페이지 판(20261019a = 분류 · 담은 부품 그림 · 코드 옆 수량, 20261014b = 처음부터 다시 담기 버튼, 20261014a = 레고®에 없는 부품 · 색 모아 보기 칩, 그 전 20261013b = 주문 id · 나눠 주문 · 실패 안내)
+const PAGE_VER = "20261102a";    // 시트 「페이지」 칸에 남는 이 페이지 판(20261019a = 분류 · 담은 부품 그림 · 코드 옆 수량, 20261014b = 처음부터 다시 담기 버튼, 20261014a = 레고®에 없는 부품 · 색 모아 보기 칩, 그 전 20261013b = 주문 id · 나눠 주문 · 실패 안내)
 const ORDER_WAIT = 15000;        // 코드 만들기 기다리는 시간(넘으면 실패로 보고 다시 누르게)
 // 스마트스토어 「고브릭 부품 주문」 상품의 최대 구매수량. 한 번에 결제할 수 있는 금액 = MAX_QTY × 결제 단위(D.unit) — 지금 99,999개 × 10원 = 999,990원.
 // 결제 금액이 이보다 크면 주문 코드를 만들지 않고 나눠 주문해 달라고 안내해요(스토어 최대 구매수량을 바꾸면 여기만 고치면 돼요).
@@ -804,8 +804,17 @@ function newOrder() {
 }
 // 긴 주문 내역(payload — 시트 「원본 코드(GB2)」 칸) GB2-{(부품*1000+색) 36진수.수량 36진수_…}~{결제 수량 = 결제금액/결제단위(D.unit) 36진수}~{가격기준}~{검사값} — order_code.py 가 풀어요(식 바꾸지 말 것)
 function fnv(s) { let h = 0x811c9dc5; for (let i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 0x01000193) >>> 0; } return h.toString(36); }
+// 부품 번호가 숫자가 아닌 부품(M255 · F0027 · 561-DE1611 …)은 번호를 37진수(0-9 A-Z -)로 읽은 큰 수(맨 앞에 1을 붙여 자릿수 보존)로 바꿔 10^9 에 더함 — 일반 부품은 10^9 미만이라 겹치지 않음(order_code.py decode 와 같은 식, 2026-11-02)
+const A37 = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ-";
+function itemKey(k) {
+  const i = k.lastIndexOf("-"), p = k.slice(0, i), c = parseInt(k.slice(i + 1), 10);
+  if (/^[1-9]\d*$/.test(p) && p.length <= 7) return (parseInt(p, 10) * 1000 + c).toString(36);
+  let v = 1n;
+  for (const ch of p) { const d = A37.indexOf(ch); if (d < 0) throw new Error("part id " + p); v = v * 37n + BigInt(d); }
+  return (1000000000n + v * 1000n + BigInt(c)).toString(36);
+}
 function codeFor(q) {
-  const body = q.lines.map(([k, n]) => { const [p, c] = k.split("-"); return (parseInt(p, 10) * 1000 + parseInt(c, 10)).toString(36) + "." + n.toString(36); }).join("_")
+  const body = q.lines.map(([k, n]) => itemKey(k) + "." + n.toString(36)).join("_")
     + "~" + q.qty.toString(36) + "~" + D.built.replace(/\D/g, "").slice(2);
   return "GB2-" + body + "~" + fnv(body);
 }
