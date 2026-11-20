@@ -413,9 +413,10 @@ const ORDER_API = "https://script.google.com/macros/s/AKfycbwT17bmWcA865dbuopvqL
 const ORDER_TEST = false;        // true 면 시트 「상태」에 「시험」으로 남음(시험 사본에서만 켬)
 const PAGE_VER = "20261102a";    // 시트 「페이지」 칸에 남는 이 페이지 판(20261019a = 분류 · 담은 부품 그림 · 코드 옆 수량, 20261014b = 처음부터 다시 담기 버튼, 20261014a = 레고®에 없는 부품 · 색 모아 보기 칩, 그 전 20261013b = 주문 id · 나눠 주문 · 실패 안내)
 const ORDER_WAIT = 15000;        // 코드 만들기 기다리는 시간(넘으면 실패로 보고 다시 누르게)
-// 스마트스토어 「고브릭 부품 주문」 상품의 최대 구매수량. 한 번에 결제할 수 있는 금액 = MAX_QTY × 결제 단위(D.unit) — 지금 99,999개 × 10원 = 999,990원.
+// 스마트스토어 「고브릭 부품 주문」 상품의 최대 구매수량. 한 번에 결제할 수 있는 금액 = MAX_QTY × 결제 단위(D.unit) — 지금 10,000개 × 100원 = 1,000,000원.
+// (2026-11-20 사장님: 스마트스토어 결제 수량이 10,000개까지라 결제 단위를 10원 → 100원으로 올리고 결제 금액은 100원 단위로 내림(절하) — 설정.json 결제단위_원)
 // 결제 금액이 이보다 크면 주문 코드를 만들지 않고 나눠 주문해 달라고 안내해요(스토어 최대 구매수량을 바꾸면 여기만 고치면 돼요).
-const MAX_QTY = 99999;
+const MAX_QTY = 10000;
 const MAX_PAY = MAX_QTY * D.unit;
 // 한 번에 주문할 수 있는 부품과 색 가짓수(줄 수) — 시트 저장소 gobrick_order_store.gs 의 LINES_MAX 와 같게.
 // 넘으면 주문 코드를 만들지 않고 나눠 주문해 달라고 안내해요(목록 올리기는 5,000줄까지 받아서)
@@ -448,7 +449,7 @@ const btnEl = (label, cls, fn) => { const b = el("button", cls, label); b.type =
 //   결제했어요(paid=true) 뒤에는 장바구니·가격이 바뀌어도 코드를 지키고, [새 주문 시작]이나 7일이 지나야 지움.
 //   옛 저장값(code 가 GB2 이고 payload 없음): 결제 전이면 지우고 ② 에서 짧은 코드를 다시 만들게, 결제했어요 뒤면 그대로 둠(old).
 const CART_KEY = "gb_cart2", STEP_KEY = "gb_step2", WEEK = 7 * 864e5;
-const RE_GB2 = /^GB2-[0-9a-z._~]+$/, RE_SHORT = /^GB\d{4}-\d{3,6}-(\d{5,6})$/;
+const RE_GB2 = /^GB2-[0-9a-z._~]+$/, RE_SHORT = /^GB\d{4}-\d{3,6}-(\d{5,7})$/;
 // 짧은 코드가 맞는 모양이고 끝 금액이 결제 금액과 같은지(20자 이하)
 const shortOk = (c, total) => typeof c === "string" && c.length <= 20 && RE_SHORT.test(c) && parseInt(c.match(RE_SHORT)[1], 10) === total;
 const okN = v => Number.isInteger(v) && v > 0 && v <= 1e7;
@@ -750,7 +751,7 @@ function quote() {
   }
   const gross = goods, dc = discOf(gross); goods = gross - dc.amt;   // goods = 할인 뒤 부품값(시트 「부품값」 칸 · 결제 금액 계산에 쓰는 값)
   const ship = lines.length ? shipFee(pcs) : 0;
-  const total = Math.ceil((goods + ship) / D.unit) * D.unit;
+  const total = Math.floor((goods + ship) / D.unit) * D.unit;   // 2026-11-20 결제 금액은 결제 단위로 내림(절하): 100원 아래는 받지 않음
   return { goods, gross, disc: dc.amt, rate: dc.pct, next: dc.next, pcs, ship, total, lines, qty: total / D.unit, lego, legoOurs, legoLines };
 }
 
@@ -974,9 +975,10 @@ function drawSum(s, q) {
     const dc = discOf(gross);
     S.append(el("div", "dnote", dc.next ? [nw(won(dc.next[0] - gross)), " 더 담으면 ", el("b", "", dc.next[1] + "% 할인"), "(부품값 " + dc.next[0].toLocaleString() + "원 이상)"] : "가장 큰 구간 할인이 적용돼 있어요."));
   }
-  // 10/13 부품 1개 값이 10원 단위(사장님 「부품금액을 개당 10원단위로 올림해줘」)라 결제 금액은 부품값 + 배송비 그대로 —
-  // 올림이 실제로 생겼을 때만(옛 가격 자료 등) 안내를 보인다
-  if (v.total !== v.goods + v.ship) S.append(el("div", "unit", won(D.unit) + " 단위로 올려 계산해요."));
+  // 2026-11-20 결제 금액은 100원 단위로 내려서 받는다(스마트스토어 결제 수량 10,000개 제한 — 사장님 「최종결제금액을 100단위로 절하해서 주문하게 가이드해줘」)
+  if (D.unit > 1 && v.total > 0) {
+    S.append(el("div", "unit", "결제 금액은 ", nw(won(D.unit) + " 단위로"), " ", nw("내려서 받아요.")));
+  }
 }
 function drawSave(s, q) {
   const B = $("save"); B.textContent = "";
