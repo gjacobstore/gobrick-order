@@ -370,7 +370,7 @@ footer{max-width:1180px;margin:0 auto;padding:14px 16px 24px;border-top:1px soli
     <div class="if" id="impFoot"></div>
   </div>
 </div>
-<script src="parts.js"></script>
+<script src="parts.js?v=20261120a"></script>   <!-- 2026-11-20 결제 단위가 바뀐 날 옛 parts.js(10원)가 브라우저에 남아 수량이 10배로 나온 일 — 판을 올릴 때 이 값도 같이 -->
 <dialog class="guide" id="guide" aria-labelledby="guideT">
   <div class="gh"><b id="guideT">주문 방법 4단계</b><button type="button" class="gx" id="guideX" aria-label="닫기">×</button></div>
   <div class="gb">
@@ -411,7 +411,7 @@ const PAY_URL = "https://smartstore.naver.com/g_jacob/products/13808325554";
 // 비어 있으면 「주문 코드 만들기」 버튼 대신 준비 중 안내. 주소는 배포 뒤 사장님이 주시면 넣어요.
 const ORDER_API = "https://script.google.com/macros/s/AKfycbwT17bmWcA865dbuopvqLJzUulgV8hPyAKZnHV3qHiYEG4NPU5o4n1sIIwhxky0LtFd/exec";   // 사장님 구글 시트 웹 앱(2026-10-14 배포, 「주문코드 v1」)
 const ORDER_TEST = false;        // true 면 시트 「상태」에 「시험」으로 남음(시험 사본에서만 켬)
-const PAGE_VER = "20261102a";    // 시트 「페이지」 칸에 남는 이 페이지 판(20261019a = 분류 · 담은 부품 그림 · 코드 옆 수량, 20261014b = 처음부터 다시 담기 버튼, 20261014a = 레고®에 없는 부품 · 색 모아 보기 칩, 그 전 20261013b = 주문 id · 나눠 주문 · 실패 안내)
+const PAGE_VER = "20261120a";    // 시트 「페이지」 칸에 남는 이 페이지 판(20261019a = 분류 · 담은 부품 그림 · 코드 옆 수량, 20261014b = 처음부터 다시 담기 버튼, 20261014a = 레고®에 없는 부품 · 색 모아 보기 칩, 그 전 20261013b = 주문 id · 나눠 주문 · 실패 안내)
 const ORDER_WAIT = 15000;        // 코드 만들기 기다리는 시간(넘으면 실패로 보고 다시 누르게)
 // 스마트스토어 「고브릭 부품 주문」 상품의 최대 구매수량. 한 번에 결제할 수 있는 금액 = MAX_QTY × 결제 단위(D.unit) — 지금 10,000개 × 100원 = 1,000,000원.
 // (2026-11-20 사장님: 스마트스토어 결제 수량이 10,000개까지라 결제 단위를 10원 → 100원으로 올리고 결제 금액은 100원 단위로 내림(절하) — 설정.json 결제단위_원)
